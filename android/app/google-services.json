@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "227797483252",
+    "project_id": "cashfinish-383e3",
+    "storage_bucket": "cashfinish-383e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:227797483252:android:67508e7b9947d729aba8a1",
+        "android_client_info": {
+          "package_name": "com.example.cashback"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "227797483252-tq9ko7a9u8g11gd7j06d13cbnkqtlc7k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2w7Ph-oJiIwlUNjgnY_o5l8VrviWUARo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "227797483252-tq9ko7a9u8g11gd7j06d13cbnkqtlc7k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "227797483252-7tcqhs3fqltob915ink112fl9psg08tn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cashback"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
