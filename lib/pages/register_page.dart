@@ -1,9 +1,8 @@
 import 'package:cashback/service/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterPage extends StatefulWidget {
   final VoidCallback showLoginPage;
@@ -51,8 +50,9 @@ class _RegisterPageState extends State<RegisterPage> {
             _emailController.text.trim(),
             '0',
             '0',
+            'you dont have S yet',
             '0',
-            '0');
+            'not active yet');
         //add user detils
 
         //  addUserDetails(

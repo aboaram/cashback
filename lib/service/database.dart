@@ -1,6 +1,5 @@
 import 'package:cashback/models/AppUser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class DatabaseService {
   final String uid;
@@ -10,7 +9,7 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('users');
 
   Future updateUserDettails(String firstname, String lastname, String email,
-      String balance, String vip, String sid, String team) async {
+      String balance, String vip, String sid, String team, String id) async {
     return await userCollection.doc(uid).set({
       'firstname': firstname,
       'lastname': lastname,
@@ -19,6 +18,7 @@ class DatabaseService {
       'vip': vip,
       'sid': sid,
       'team': team,
+      'id': id
     });
   }
 
@@ -30,7 +30,8 @@ class DatabaseService {
         balance: snapshot['balance'],
         sid: snapshot['sid'],
         team: snapshot['team'],
-        vip: snapshot['vip']);
+        vip: snapshot['vip'],
+        id: snapshot['id']);
   }
 
   Stream<UserData> get AppuserData {
