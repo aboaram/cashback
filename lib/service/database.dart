@@ -1,4 +1,6 @@
+import 'package:cashback/models/AppUser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class DatabaseService {
   final String uid;
@@ -18,5 +20,20 @@ class DatabaseService {
       'sid': sid,
       'team': team,
     });
+  }
+
+  // user data  from snapshot
+  UserData _userDataFromSnapShot(DocumentSnapshot snapshot) {
+    return UserData(
+        uid: uid,
+        firstname: snapshot['firstname'],
+        balance: snapshot['balance'],
+        sid: snapshot['sid'],
+        team: snapshot['team'],
+        vip: snapshot['vip']);
+  }
+
+  Stream<UserData> get AppuserData {
+    return userCollection.doc(uid).snapshots().map(_userDataFromSnapShot);
   }
 }
