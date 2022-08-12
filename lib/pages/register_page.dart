@@ -1,4 +1,6 @@
+import 'package:cashback/service/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -38,14 +40,26 @@ class _RegisterPageState extends State<RegisterPage> {
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
-
+        final UserCredential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: _emailController.text.trim(),
+                password: _passwordController.text.trim());
+        final user = UserCredential.user;
+        await DatabaseService(uid: user!.uid).updateUserDettails(
+            _firstNameController.text.trim(),
+            _lastNameController.text.trim(),
+            _emailController.text.trim(),
+            '0',
+            '0',
+            '0',
+            '0');
         //add user detils
 
-        addUserDetails(
-          _firstNameController.text.trim(),
-          _lastNameController.text.trim(),
-          _emailController.text.trim(),
-        );
+        //  addUserDetails(
+        //   _firstNameController.text.trim(),
+        //    _lastNameController.text.trim(),
+        //   _emailController.text.trim(),
+        // );
       }
       ;
     } on FirebaseAuthException catch (e) {
@@ -60,13 +74,13 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  Future addUserDetails(String firstName, String lastName, String email) async {
-    await FirebaseFirestore.instance.collection('users').add({
-      'first name': firstName,
-      'last name': lastName,
-      'email': email,
-    });
-  }
+  // Future addUserDetails(String firstName, String lastName, String email) async {
+  // await FirebaseFirestore.instance.collection('users').add({
+  //    'first name': firstName,
+  //   'last name': lastName,
+  //   'email': email,
+  //  });
+  // }
 
   bool passwordConfirmed() {
     if (_passwordController.text.trim() ==
