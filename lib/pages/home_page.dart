@@ -16,7 +16,6 @@ class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
   //url
 
-  String _telegramUrl = "https://t.me/+-MUc693m9xAwODdh";
   String _facebookUrl = "https://www.facebook.com/Cashbach.Jo/";
 
   void launchUrl(String urlString,
@@ -52,14 +51,6 @@ class _HomePageState extends State<HomePage> {
         elevation: 10,
         titleSpacing: 2,
         actions: [
-          IconButton(
-              //launchUrl(_telegramUrl)
-              onPressed: () => launchUrl(_telegramUrl),
-              icon: Icon(
-                Icons.telegram,
-                color: Colors.white,
-                size: 30,
-              )),
           IconButton(
               onPressed: () => launchUrl(_facebookUrl),
               icon: Icon(Icons.facebook, color: Colors.white, size: 30))

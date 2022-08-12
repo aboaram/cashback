@@ -1,8 +1,9 @@
 import 'package:cashback/models/AppUser.dart';
-
 import 'package:cashback/pages/loader_page.dart';
-
 import 'package:cashback/service/database.dart';
+import 'package:cashback/utility/buttons/my_button.dart';
+import 'package:cashback/utility/buttons/my_button_two.dart';
+import 'package:cashback/utility/my_button_three.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -40,6 +41,10 @@ class _UserCardState extends State<UserCard> {
                         Color.fromARGB(255, 231, 150, 245)
                       ])),
                   child: Column(children: [
+                    Container(
+                        width: 70,
+                        height: 50,
+                        child: Image.asset('icon/playstore.png')),
                     Text(userData!.firstname.toUpperCase(),
                         style: GoogleFonts.bebasNeue(
                             fontWeight: FontWeight.bold,
@@ -63,7 +68,7 @@ class _UserCardState extends State<UserCard> {
                     Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: Colors.amber),
+                          color: Colors.pinkAccent),
                       child: Text(
                         ' VIP : ' + userData.vip + " ",
                         style: GoogleFonts.salsa(
@@ -94,9 +99,23 @@ class _UserCardState extends State<UserCard> {
                               fontSize: 15),
                         ),
                       ],
-                    )
+                    ),
                   ]),
                 ),
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // invite button
+                  MyButton(),
+                  // team button
+                  MyButtonTwo(),
+                  // reports
+                  MyButtonThree()
+                ],
               )
               // cards !!!
             ]));
