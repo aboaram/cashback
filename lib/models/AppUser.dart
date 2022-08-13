@@ -5,19 +5,23 @@ class Appuser {
 
 class UserData {
   final String firstname;
-  final String balance;
-  final String sid;
-  final String team;
-  final String vip;
+  final int balance;
+  final int sid;
+  final int vip;
   final String uid;
-  final String id;
+  final int id;
+  final String active;
+  final int invitecode;
+  final String refcode;
 
   UserData(
       {required this.firstname,
       required this.balance,
       required this.sid,
-      required this.team,
       required this.uid,
       required this.vip,
-      required this.id});
+      required this.id,
+      required this.active,
+      required this.invitecode,
+      required this.refcode});
 }

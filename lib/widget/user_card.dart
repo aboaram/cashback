@@ -49,19 +49,21 @@ class _UserCardState extends State<UserCard> {
                         style: GoogleFonts.bebasNeue(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
-                            fontSize: 60)),
-                    Text('ID: ' + userData.id,
+                            fontSize: 40)),
+                    Text('ID: ' + userData.id.toString(),
                         style: GoogleFonts.bebasNeue(
                           fontWeight: FontWeight.normal,
                           color: Colors.white,
                           fontSize: 20,
                         )),
-                    Text('SID: ' + userData.sid,
-                        style: GoogleFonts.bebasNeue(
-                          fontWeight: FontWeight.normal,
-                          color: Colors.white,
-                          fontSize: 15,
-                        )),
+                    Text(
+                      'SID: ' + userData.sid.toString(),
+                      style: GoogleFonts.bebasNeue(
+                        fontWeight: FontWeight.normal,
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                    ),
                     SizedBox(
                       height: 10,
                     ),
@@ -70,7 +72,7 @@ class _UserCardState extends State<UserCard> {
                           borderRadius: BorderRadius.circular(8),
                           color: Colors.pinkAccent),
                       child: Text(
-                        ' VIP : ' + userData.vip + " ",
+                        ' VIP : ' + userData.vip.toString() + " ",
                         style: GoogleFonts.salsa(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -85,14 +87,7 @@ class _UserCardState extends State<UserCard> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Balance : \$ ' + userData.balance,
-                          style: GoogleFonts.salsa(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontSize: 15),
-                        ),
-                        Text(
-                          'Team M : ' + userData.team,
+                          'Balance : \$ ' + userData.balance.toString(),
                           style: GoogleFonts.salsa(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
