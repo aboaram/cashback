@@ -5,6 +5,8 @@ class Appuser {
 
 class UserData {
   final String firstname;
+  final String lastname;
+  final String email;
   final int balance;
   final int sid;
   final int vip;
@@ -13,9 +15,12 @@ class UserData {
   final String active;
   final int invitecode;
   final int refcode;
+  final bool isactivebounas;
 
   UserData(
       {required this.firstname,
+      required this.lastname,
+      required this.email,
       required this.balance,
       required this.sid,
       required this.uid,
@@ -23,5 +28,6 @@ class UserData {
       required this.id,
       required this.active,
       required this.invitecode,
-      required this.refcode});
+      required this.refcode,
+      required this.isactivebounas});
 }

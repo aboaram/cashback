@@ -62,9 +62,8 @@ class _RegisterPageState extends State<RegisterPage> {
             'You are Not active yet',
             idcode,
             invcode,
-            0);
-
-        await DatabaseService(uid: user.uid).updareInviteCodeDettails(invcode);
+            0,
+            true);
 
         //add user detils
 

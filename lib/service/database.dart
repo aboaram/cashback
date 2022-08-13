@@ -3,26 +3,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
   final String uid;
+
   DatabaseService({required this.uid});
 
   final CollectionReference _userCollection =
       FirebaseFirestore.instance.collection('users');
 
-  final CollectionReference _ivitecodeCollection =
-      FirebaseFirestore.instance.collection('invitecode');
-
   Future updateUserDettails(
-    String firstname,
-    String lastname,
-    String email,
-    int balance,
-    int vip,
-    int sid,
-    String active,
-    int id,
-    int invitecode,
-    int refcode,
-  ) async {
+      String firstname,
+      String lastname,
+      String email,
+      int balance,
+      int vip,
+      int sid,
+      String active,
+      int id,
+      int invitecode,
+      int refcode,
+      bool isactivebounas) async {
     return await _userCollection.doc(uid).set({
       'firstname': firstname,
       'lastname': lastname,
@@ -33,12 +31,9 @@ class DatabaseService {
       'active': active,
       'id': id,
       'invitecode': invitecode,
-      'refcode': refcode
+      'refcode': refcode,
+      'isactivebounas': isactivebounas
     });
-  }
-
-  Future updareInviteCodeDettails(int invitecode) async {
-    return await _ivitecodeCollection.doc().set({'invitecode': invitecode});
   }
 
   // user data  from snapshot
@@ -46,13 +41,16 @@ class DatabaseService {
     return UserData(
         uid: uid,
         firstname: snapshot['firstname'],
+        lastname: snapshot['lastname'],
+        email: snapshot['email'],
         balance: snapshot['balance'],
         sid: snapshot['sid'],
         active: snapshot['active'],
         vip: snapshot['vip'],
         id: snapshot['id'],
         invitecode: snapshot['invitecode'],
-        refcode: snapshot['refcode']);
+        refcode: snapshot['refcode'],
+        isactivebounas: snapshot['isactivebounas']);
   }
 
   Stream<UserData> get AppuserData {

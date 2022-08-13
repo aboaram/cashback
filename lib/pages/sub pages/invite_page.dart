@@ -11,7 +11,6 @@ class InvitePage extends StatefulWidget {
   const InvitePage({Key? key}) : super(key: key);
 
   @override
-  @override
   _InvitePageState createState() => _InvitePageState();
 }
 
@@ -40,6 +39,8 @@ class _InvitePageState extends State<InvitePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
+
     final user = FirebaseAuth.instance.currentUser!;
     return StreamBuilder<UserData>(
         stream: DatabaseService(uid: user.uid).AppuserData,
@@ -85,52 +86,55 @@ class _InvitePageState extends State<InvitePage> {
                     SizedBox(
                       height: 40,
                     ),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 35),
-                        child: Container(
-                          padding: EdgeInsets.all(40),
-                          width: 300,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              gradient: LinearGradient(colors: [
-                                Colors.greenAccent,
-                                Color.fromARGB(255, 231, 150, 245)
-                              ])),
-                          child: Column(children: [
-                            Container(
-                                width: 70,
-                                height: 50,
-                                child: Image.asset('icon/playstore.png')),
-                            Text('Your invite code : ',
-                                style: GoogleFonts.bebasNeue(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    fontSize: 20)),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            GestureDetector(
-                              onTap: () async {
-                                final urlPreview =
-                                    'https://t.me/+-MUc693m9xAwODdh';
-                                await Share.share('Hi , use this code : ' +
-                                    userData!.invitecode.toString() +
-                                    ' and you will get 5\$ gift \n Cashback jo channel :\n$urlPreview ');
-                              },
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.shade300,
-                                          blurRadius: 40,
-                                          spreadRadius: 10,
-                                        )
-                                      ]),
-                                  child: Image.asset('icon/invite.png')),
-                            ),
-                          ]),
-                        )),
+                    if (!isKeyboard)
+                      Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 35),
+                          child: Container(
+                            padding: EdgeInsets.all(40),
+                            width: 300,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                gradient: LinearGradient(colors: [
+                                  Colors.greenAccent,
+                                  Color.fromARGB(255, 231, 150, 245)
+                                ])),
+                            child: Column(children: [
+                              Container(
+                                  width: 70,
+                                  height: 50,
+                                  child: Image.asset('icon/playstore.png')),
+                              Text('Your invite code : ',
+                                  style: GoogleFonts.bebasNeue(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontSize: 20)),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              GestureDetector(
+                                onTap: () async {
+                                  final invitelinkdone =
+                                      userData!.invitecode + 12;
+                                  final urlPreview =
+                                      'https://t.me/+-MUc693m9xAwODdh';
+                                  await Share.share('Hi , use this code : ' +
+                                      invitelinkdone.toString() +
+                                      ' and you will get 5\$ gift \n Cashback jo channel :\n$urlPreview ');
+                                },
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.shade300,
+                                            blurRadius: 40,
+                                            spreadRadius: 10,
+                                          )
+                                        ]),
+                                    child: Image.asset('icon/invite.png')),
+                              ),
+                            ]),
+                          )),
                     SizedBox(
                       height: 20,
                     ),
@@ -159,6 +163,7 @@ class _InvitePageState extends State<InvitePage> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 20.0),
                           child: TextField(
+                            enabled: userData!.isactivebounas,
                             controller: _ReferalCodeController,
                             obscureText: false,
                             decoration: InputDecoration(
@@ -170,22 +175,28 @@ class _InvitePageState extends State<InvitePage> {
                       ),
                     ),
                     SizedBox(height: 5),
-
-                    ///sing  up button
-                    SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: GestureDetector(
-                        child: Container(
-                          padding: EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                              color: Colors.greenAccent,
-                              borderRadius: BorderRadius.circular(12)),
-                          child:
-                              Center(child: Image.asset('icon/rewarddd.png')),
-                        ),
-                      ),
-                    ),
+                    FloatingActionButton(
+                      backgroundColor: Colors.greenAccent,
+                      child: Icon(Icons.done),
+                      onPressed: () async {
+                        int sidqq = int.parse(_ReferalCodeController.text) - 12;
+                        int refcode = int.parse(_ReferalCodeController.text);
+                        bool yesitsactive = false;
+                        await DatabaseService(uid: userData.uid)
+                            .updateUserDettails(
+                                userData.firstname,
+                                userData.lastname,
+                                userData.email,
+                                userData.balance + 5,
+                                userData.vip,
+                                sidqq,
+                                userData.active,
+                                userData.id,
+                                userData.invitecode,
+                                refcode,
+                                yesitsactive);
+                      },
+                    )
                   ],
                 ),
               ),
