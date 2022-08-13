@@ -12,16 +12,17 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('invitecode');
 
   Future updateUserDettails(
-      String firstname,
-      String lastname,
-      String email,
-      int balance,
-      int vip,
-      int sid,
-      String active,
-      int id,
-      int invitecode,
-      String refcode) async {
+    String firstname,
+    String lastname,
+    String email,
+    int balance,
+    int vip,
+    int sid,
+    String active,
+    int id,
+    int invitecode,
+    int refcode,
+  ) async {
     return await _userCollection.doc(uid).set({
       'firstname': firstname,
       'lastname': lastname,

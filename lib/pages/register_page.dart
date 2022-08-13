@@ -22,7 +22,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final _confirmpasswordController = TextEditingController();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
-  final _iviteCodeController = TextEditingController();
 
   @override
   //todo
@@ -32,14 +31,13 @@ class _RegisterPageState extends State<RegisterPage> {
     _confirmpasswordController.dispose();
     _firstNameController.dispose();
     _lastNameController.dispose();
-    _iviteCodeController.dispose();
     super.dispose();
   }
 
   Future signUp() async {
     //auth user
     try {
-      if (passwordConfirmed = true) {
+      if (passwordConfirmed()) {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
@@ -50,22 +48,23 @@ class _RegisterPageState extends State<RegisterPage> {
                 password: _passwordController.text.trim());
         final user = UserCredential.user;
         var rng = new Random();
-        var code = rng.nextInt(900000) + 100000;
+        var idcode = rng.nextInt(900000) + 100000;
 
         var sog = new Random();
         var invcode = sog.nextInt(900000) + 100000;
         await DatabaseService(uid: user!.uid).updateUserDettails(
-          _firstNameController.text.trim(),
-          _lastNameController.text.trim(),
-          _emailController.text.trim(),
-          0,
-          0,
-          0000,
-          'You are Not active yet',
-          code,
-          invcode,
-          _iviteCodeController.text.trim(),
-        );
+            _firstNameController.text.trim(),
+            _lastNameController.text.trim(),
+            _emailController.text.trim(),
+            0,
+            0,
+            0000,
+            'You are Not active yet',
+            idcode,
+            invcode,
+            0);
+
+        await DatabaseService(uid: user.uid).updareInviteCodeDettails(invcode);
 
         //add user detils
 
@@ -82,7 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              content: Text(e.message.toString()),
+              content: Text(e.message.toString() + " your passord wrong "),
             );
           });
     }
@@ -96,7 +95,15 @@ class _RegisterPageState extends State<RegisterPage> {
   //  });
   // }
 
-  bool passwordConfirmed = true;
+  bool passwordConfirmed() {
+    if (_passwordController.text.trim() ==
+        _confirmpasswordController.text.trim()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   //{
   //if (_passwordController.text.trim() ==
   //  _confirmpasswordController.text.trim()) {
@@ -168,7 +175,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       padding: const EdgeInsets.only(left: 20.0),
                       child: TextField(
                         controller: _passwordController,
-                        obscureText: true,
+                        obscureText: false,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Password',
@@ -178,18 +185,38 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 FlutterPwValidator(
-                    width: 400,
-                    height: 150,
+                    width: 200,
+                    height: 30,
                     minLength: 8,
-                    onSuccess: () {
-                      passwordConfirmed = true;
-                    },
-                    onFail: () {
-                      passwordConfirmed = false;
-                    },
+                    uppercaseCharCount: 1,
+                    onSuccess: () {},
+                    onFail: () {},
                     controller: _passwordController),
                 //firstname
                 SizedBox(height: 5),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      border: Border.all(color: Colors.white),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: TextField(
+                        controller: _confirmpasswordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'confirm password',
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Container(
@@ -225,27 +252,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Last name',
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 5),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.white),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: TextField(
-                        controller: _iviteCodeController,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'ivite code',
                         ),
                       ),
                     ),

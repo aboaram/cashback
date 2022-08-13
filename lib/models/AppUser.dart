@@ -12,7 +12,7 @@ class UserData {
   final int id;
   final String active;
   final int invitecode;
-  final String refcode;
+  final int refcode;
 
   UserData(
       {required this.firstname,
