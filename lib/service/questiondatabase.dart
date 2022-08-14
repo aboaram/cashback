@@ -13,6 +13,10 @@ class QuestiondService {
         questionansur: snapshot['questionanur']);
   }
 
+  Stream<QuerySnapshot> get questionallData {
+    return _questionCollection.snapshots();
+  }
+
   Stream<questionData> get AppquestionData {
     return _questionCollection.doc().snapshots().map(_questionDataFromSnapShot);
   }

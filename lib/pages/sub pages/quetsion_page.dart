@@ -1,8 +1,6 @@
-import 'package:cashback/pages/loader_page.dart';
+import 'package:cashback/models/question_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:cashback/service/questiondatabase.dart';
-
-import '../../models/question_model.dart';
 
 class QuetsionPage extends StatefulWidget {
   const QuetsionPage({Key? key}) : super(key: key);
@@ -12,20 +10,27 @@ class QuetsionPage extends StatefulWidget {
 }
 
 class _QuetsionPageState extends State<QuetsionPage> {
+  List<Object> _questiononeList = [];
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<questionData>(
-      stream: QuestiondService().AppquestionData,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          questionData? qData = snapshot.data;
-          return Scaffold(
-            backgroundColor: const Color(0xff202227),
-          );
-        } else {
-          return LoaderPage();
-        }
-      },
+    return Scaffold(
+      body: SafeArea(
+        child: ListView.builder(
+          itemCount: _questiononeList.length,
+          itemBuilder: (context, index) {
+            return Text('$index');
+          },
+        ),
+      ),
     );
+  }
+
+  Future getQusetionListone() async {
+    var dataOne = await FirebaseFirestore.instance.collection('question').get();
+
+    setState(() {
+      _questiononeList = List.from(
+          dataOne.docs.map((docOne) => questionData.fromSnapshot(docOne)));
+    });
   }
 }
