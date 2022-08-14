@@ -9,6 +9,15 @@ class DatabaseService {
   final CollectionReference _userCollection =
       FirebaseFirestore.instance.collection('users');
 
+  final CollectionReference _inviteCollection =
+      FirebaseFirestore.instance.collection('invitecode');
+
+  Future updateInviteLink(int invitecode, int id) async {
+    return await _inviteCollection
+        .doc(uid)
+        .set({'invitecode': invitecode, 'id': id});
+  }
+
   Future updateUserDettails(
       String firstname,
       String lastname,

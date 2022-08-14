@@ -65,6 +65,8 @@ class _RegisterPageState extends State<RegisterPage> {
             0,
             true);
 
+        await DatabaseService(uid: user.uid).updateInviteLink(invcode, idcode);
+
         //add user detils
 
         //  addUserDetails(

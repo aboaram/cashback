@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -182,19 +183,49 @@ class _InvitePageState extends State<InvitePage> {
                         int sidqq = int.parse(_ReferalCodeController.text) - 12;
                         int refcode = int.parse(_ReferalCodeController.text);
                         bool yesitsactive = false;
-                        await DatabaseService(uid: userData.uid)
-                            .updateUserDettails(
-                                userData.firstname,
-                                userData.lastname,
-                                userData.email,
-                                userData.balance + 5,
-                                userData.vip,
-                                sidqq,
-                                userData.active,
-                                userData.id,
-                                userData.invitecode,
-                                refcode,
-                                yesitsactive);
+                        Future<bool> CheckIfInviteCodeExist(String) async {
+                          QuerySnapshot query = await FirebaseFirestore.instance
+                              .collection('invitecode')
+                              .where('invitecode', isEqualTo: refcode)
+                              .get();
+                          return query.docs.isNotEmpty;
+                        }
+
+                        if (await CheckIfInviteCodeExist(
+                            _ReferalCodeController)) {
+                          await DatabaseService(uid: userData.uid)
+                              .updateUserDettails(
+                                  userData.firstname,
+                                  userData.lastname,
+                                  userData.email,
+                                  userData.balance + 5,
+                                  userData.vip,
+                                  sidqq,
+                                  userData.active,
+                                  userData.id,
+                                  userData.invitecode,
+                                  refcode,
+                                  yesitsactive);
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Center(
+                                    child: Text(
+                                      'wrong invite code',
+                                      style: GoogleFonts.salsa(
+                                          color: Colors.greenAccent),
+                                    ),
+                                  ),
+                                  content: Text(
+                                    'you insert wrong invite \n code be sure from the code you have \n and try again',
+                                    style: GoogleFonts.salsa(
+                                        color: Colors.greenAccent),
+                                  ),
+                                );
+                              });
+                        }
                       },
                     )
                   ],
