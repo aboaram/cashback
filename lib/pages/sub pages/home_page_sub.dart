@@ -2,6 +2,7 @@ import 'package:cashback/pages/loader_page.dart';
 import 'package:cashback/pages/sub%20pages/send_invite.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:like_button/like_button.dart';
 import '../../models/AppUser.dart';
 import '../../service/database.dart';
 import '../../widget/custom_nav_bar.dart';
@@ -343,13 +344,48 @@ class _HomePageSubState extends State<HomePageSub> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text(
-                          'Team',
-                          style: TextStyle(
-                            fontFamily: 'SF Rounded',
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                        GestureDetector(
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    actions: [LikeButton()],
+                                    backgroundColor: const Color(0xff202227),
+                                    elevation: 24.5,
+                                    title: Center(
+                                      child: Text(
+                                        'Sorry !!',
+                                        style: TextStyle(
+                                          fontFamily: 'SF Rounded',
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    content: Center(
+                                      child: Text(
+                                        ' Team sheet not available ,You need to wait for next update to get the cheat inside the app.\n if you want to get the sheet , contact with Support in telegram group',
+                                        style: TextStyle(
+                                          fontFamily: 'SF Rounded',
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                });
+                          },
+                          child: Text(
+                            'Team',
+                            style: TextStyle(
+                              fontFamily: 'SF Rounded',
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                         Text(
@@ -374,7 +410,7 @@ class _HomePageSubState extends State<HomePageSub> {
                           color: Colors.white,
                         ),
                         SizedBox(
-                          width: 2,
+                          width: 4,
                         ),
                         Text(
                           '0 ',
@@ -386,6 +422,26 @@ class _HomePageSubState extends State<HomePageSub> {
                           ),
                         )
                       ]),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.upcoming,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            '0',
+                            style: TextStyle(
+                              fontFamily: 'SF Rounded',
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          )
+                        ],
+                      )
                     ],
                   )
                 ],
@@ -445,7 +501,13 @@ class _HomePageSubState extends State<HomePageSub> {
                               color: Colors.white.withOpacity(0.1),
                               size: 30,
                             ),
-                            onPressed: null),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const HomePageSub()));
+                            }),
                         IconButton(
                             icon: Icon(
                               Icons.work,
