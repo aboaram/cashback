@@ -6,11 +6,13 @@ class LoaderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: SpinKitSpinningLines(
-      size: 140,
-      itemCount: 7,
-      color: Colors.greenAccent,
-    ));
+    return Scaffold(
+        backgroundColor: const Color(0xff202227),
+        body: Center(
+            child: SpinKitSpinningLines(
+          size: 140,
+          itemCount: 7,
+          color: Colors.greenAccent,
+        )));
   }
 }
