@@ -1,4 +1,5 @@
 import 'package:cashback/pages/loader_page.dart';
+import 'package:cashback/pages/sub%20pages/quetsion_page.dart';
 import 'package:cashback/pages/sub%20pages/send_invite.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -526,7 +527,13 @@ class _HomePageSubState extends State<HomePageSub> {
                               color: Colors.white.withOpacity(0.1),
                               size: 30,
                             ),
-                            onPressed: null),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const QuetsionPage()));
+                            }),
                         IconButton(
                             icon: Icon(
                               Icons.send,

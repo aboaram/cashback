@@ -15,8 +15,18 @@ class SendInvite extends StatefulWidget {
 }
 
 class _SendInviteState extends State<SendInvite> {
+  final _ReferalCodeController = TextEditingController();
+  @override
+  void dispose() {
+    _ReferalCodeController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    var _firstPress = true;
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
+
     final user = FirebaseAuth.instance.currentUser!;
     return StreamBuilder<UserData>(
         stream: DatabaseService(uid: user.uid).AppuserData,
@@ -42,87 +52,88 @@ class _SendInviteState extends State<SendInvite> {
                   SizedBox(
                     height: 30,
                   ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    width: 413,
-                    height: 106,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 1.15,
-                          color: const Color(0xff707070).withOpacity(0.28)),
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: Row(children: [
-                      SizedBox(
-                        width: 15,
+                  if (!isKeyboard)
+                    Container(
+                      margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      width: 413,
+                      height: 106,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 1.15,
+                            color: const Color(0xff707070).withOpacity(0.28)),
+                        borderRadius: BorderRadius.circular(25),
                       ),
-                      Image.asset('icon/profilesircal.png'),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 2, right: 15),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              userData!.firstname + ' ' + userData.lastname,
-                              style: TextStyle(
-                                fontFamily: 'SF Rounded',
-                                fontSize: 26,
-                                color: Colors.white,
-                              ),
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Icon(
-                                  Icons.account_box,
-                                  color: Colors.white.withOpacity(0.25),
+                      child: Row(children: [
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Image.asset('icon/profilesircal.png'),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 2, right: 15),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                userData!.firstname + ' ' + userData.lastname,
+                                style: TextStyle(
+                                  fontFamily: 'SF Rounded',
+                                  fontSize: 26,
+                                  color: Colors.white,
                                 ),
-                                Text(
-                                  'ID : ' + userData.id.toString(),
-                                  style: TextStyle(
-                                    fontFamily: 'SF Rounded',
-                                    fontSize: 16,
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Icon(
+                                    Icons.account_box,
                                     color: Colors.white.withOpacity(0.25),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                  Text(
+                                    'ID : ' + userData.id.toString(),
+                                    style: TextStyle(
+                                      fontFamily: 'SF Rounded',
+                                      fontSize: 16,
+                                      color: Colors.white.withOpacity(0.25),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      //
+                        SizedBox(
+                          width: 20,
+                        ),
+                        //
 
-                      Container(
-                        width: 77,
-                        height: 29,
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            begin: Alignment(0.01, 0.13),
-                            end: Alignment(0.97, 0.84),
-                            colors: [Color(0xff79fd7b), Color(0xff3dcd98)],
+                        Container(
+                          width: 77,
+                          height: 29,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              begin: Alignment(0.01, 0.13),
+                              end: Alignment(0.97, 0.84),
+                              colors: [Color(0xff79fd7b), Color(0xff3dcd98)],
+                            ),
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'VIP:',
-                            style: TextStyle(
-                              fontFamily: 'SF Rounded',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.black.withOpacity(0.72),
+                          child: Center(
+                            child: Text(
+                              'VIP:',
+                              style: TextStyle(
+                                fontFamily: 'SF Rounded',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.black.withOpacity(0.72),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ]),
-                  ),
+                      ]),
+                    ),
                   SizedBox(
                     height: 10,
                   ),
@@ -162,7 +173,7 @@ class _SendInviteState extends State<SendInvite> {
                           primary: Color(0xff79fd7b),
                           onPrimary: Colors.white),
                       onPressed: () async {
-                        final invitelinkdone = userData.invitecode + 12;
+                        final invitelinkdone = userData!.invitecode + 12;
                         final urlPreview = 'https://t.me/+-MUc693m9xAwODdh';
                         await Share.share('Hi 👋  use this code :' +
                             invitelinkdone.toString() +
@@ -199,6 +210,23 @@ class _SendInviteState extends State<SendInvite> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextField(
+                    enabled: userData!.isactivebounas,
+                    controller: _ReferalCodeController,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2,
+                        color: Color(0xff79fd7b),
+                      ),
+                      borderRadius: const BorderRadius.all(
+                        const Radius.circular(30),
+                      ),
+                    )),
+                  )
                 ],
               ),
 
