@@ -1,11 +1,10 @@
 import 'package:cashback/pages/loader_page.dart';
 import 'package:cashback/pages/sub%20pages/quetsion_page.dart';
 import 'package:cashback/pages/sub%20pages/send_invite.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
-import '../../models/AppUser.dart';
-import '../../service/database.dart';
 import '../../widget/custom_nav_bar.dart';
 
 class HomePageSub extends StatefulWidget {
@@ -16,16 +15,26 @@ class HomePageSub extends StatefulWidget {
 }
 
 class _HomePageSubState extends State<HomePageSub> {
-  // user from aut
+  // user from auth
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser!;
-    return StreamBuilder<UserData>(
-        stream: DatabaseService(uid: user.uid).AppuserData,
-        builder: (context, snapshot) {
+    final Appuser = FirebaseAuth.instance.currentUser;
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    return FutureBuilder<DocumentSnapshot>(
+        future: users.doc(Appuser!.uid).get(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasData) {
-            UserData? userData = snapshot.data;
+            Map<String, dynamic> data =
+                snapshot.data!.data() as Map<String, dynamic>;
+            // double
+            double balance = double.parse(data['balance'].toString());
+            double teambalance = double.parse(data['teambalance'].toString());
+            double rewardbalance =
+                double.parse(data['rewardbalance'].toString());
+            double allbalance = balance + teambalance + rewardbalance;
+
             return Scaffold(
               backgroundColor: const Color(0xff202227),
               body: Column(
@@ -65,7 +74,8 @@ class _HomePageSubState extends State<HomePageSub> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    userData!.balance.toString(),
+                                    allbalance.toString(),
+                                    // userData!.name.toString(),
                                     style: TextStyle(
                                         fontSize: 54,
                                         color:
@@ -137,7 +147,8 @@ class _HomePageSubState extends State<HomePageSub> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                userData.firstname + ' ' + userData.lastname,
+                                //name
+                                data['name'],
                                 style: TextStyle(
                                   fontFamily: 'SF Rounded',
                                   fontSize: 26,
@@ -152,7 +163,7 @@ class _HomePageSubState extends State<HomePageSub> {
                                     color: Colors.white.withOpacity(0.25),
                                   ),
                                   Text(
-                                    'ID : ' + userData.id.toString(),
+                                    'ID :  ${data['id']} ',
                                     style: TextStyle(
                                       fontFamily: 'SF Rounded',
                                       fontSize: 16,
@@ -182,7 +193,7 @@ class _HomePageSubState extends State<HomePageSub> {
                           ),
                           child: Center(
                             child: Text(
-                              'VIP : ' + userData.vip.toString(),
+                              'VIP : ${data['vip']} ',
                               style: TextStyle(
                                 fontFamily: 'SF Rounded',
                                 fontWeight: FontWeight.bold,
@@ -433,7 +444,7 @@ class _HomePageSubState extends State<HomePageSub> {
                             width: 4,
                           ),
                           Text(
-                            '0',
+                            teambalance.toString(),
                             style: TextStyle(
                               fontFamily: 'SF Rounded',
                               fontSize: 26,
@@ -447,7 +458,7 @@ class _HomePageSubState extends State<HomePageSub> {
                   )
                 ],
               ),
-
+              //////// wns
               // Borrom bar
               floatingActionButton: Transform.scale(
                 scale: 1,
@@ -455,7 +466,7 @@ class _HomePageSubState extends State<HomePageSub> {
                   offset: Offset(0, 18),
                   child: GestureDetector(
                     onTap: () {
-                      print('FAB tapped');
+                      FirebaseAuth.instance.signOut();
                     },
                     child: Container(
                       width: 70,

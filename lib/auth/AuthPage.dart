@@ -1,7 +1,7 @@
-import 'package:cashback/pages/Login_page.dart';
+import 'package:cashback/pages/sub%20pages/singn_up_page.dart';
 import 'package:flutter/material.dart';
 
-import '../pages/register_page.dart';
+import '../pages/Login_page.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -12,6 +12,7 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   // show the login page
+
   bool showLoginPage = true;
 
   void toggleScreens() {
@@ -25,7 +26,7 @@ class _AuthPageState extends State<AuthPage> {
     if (showLoginPage) {
       return LoginPage(showRegisterPage: toggleScreens);
     } else {
-      return RegisterPage(showLoginPage: toggleScreens);
+      return SignUp(showLoginPage: toggleScreens);
     }
   }
 }

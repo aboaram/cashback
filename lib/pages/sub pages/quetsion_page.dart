@@ -1,5 +1,3 @@
-import 'package:cashback/models/question_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class QuetsionPage extends StatefulWidget {
@@ -10,27 +8,30 @@ class QuetsionPage extends StatefulWidget {
 }
 
 class _QuetsionPageState extends State<QuetsionPage> {
-  List<Object> _questiononeList = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: ListView.builder(
-          itemCount: _questiononeList.length,
-          itemBuilder: (context, index) {
-            return Text('$index');
-          },
-        ),
-      ),
-    );
-  }
-
-  Future getQusetionListone() async {
-    var dataOne = await FirebaseFirestore.instance.collection('question').get();
-
-    setState(() {
-      _questiononeList = List.from(
-          dataOne.docs.map((docOne) => questionData.fromSnapshot(docOne)));
-    });
+        backgroundColor: const Color(0xff202227),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 30, top: 20),
+                child: Text(
+                  "CashBack jo 💸 ",
+                  style: TextStyle(
+                    fontFamily: 'SF Rounded',
+                    fontSize: 32,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+            ],
+          ),
+        ));
   }
 }

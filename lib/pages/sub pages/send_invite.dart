@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../models/AppUser.dart';
-import '../../service/database.dart';
+
+import '../../service/firebase_helper.dart';
 import '../../widget/custom_nav_bar.dart';
 import '../loader_page.dart';
 import 'home_page_sub.dart';
@@ -29,7 +30,7 @@ class _SendInviteState extends State<SendInvite> {
 
     final user = FirebaseAuth.instance.currentUser!;
     return StreamBuilder<UserData>(
-        stream: DatabaseService(uid: user.uid).AppuserData,
+        stream: FirestoreHelper(uid: user.uid).userDta,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             UserData? userData = snapshot.data;
@@ -77,7 +78,7 @@ class _SendInviteState extends State<SendInvite> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                userData!.firstname + ' ' + userData.lastname,
+                                userData!.name,
                                 style: TextStyle(
                                   fontFamily: 'SF Rounded',
                                   fontSize: 26,
