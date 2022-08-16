@@ -3,6 +3,7 @@ import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_five_tasks.dart';
 import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_four_tasks.dart';
 import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_three_tasks.dart';
 import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_two_tasks.dart';
+import 'package:cashback/utility/task_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -317,7 +318,19 @@ class _VipOneTasksState extends State<VipOneTasks> {
                         top: BorderSide(width: 1.15, color: Color(0xff79fd7b)),
                       ),
                     ),
-                    child: ListView(scrollDirection: Axis.horizontal),
+                    child: Container(
+                      width: 413,
+                      height: 60,
+                      child: PageView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          TaskCard(
+                            price: '0.20',
+                          ),
+                          TaskCard(price: '0.20')
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),

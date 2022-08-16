@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cashback/pages/loader_page.dart';
 import 'package:cashback/pages/sub%20pages/quetsion_page.dart';
 import 'package:cashback/pages/sub%20pages/send_invite.dart';
@@ -8,6 +6,7 @@ import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_four_tasks.dart';
 import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_one_tasks.dart';
 import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_three_tasks.dart';
 import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_two_tasks.dart';
+import 'package:cashback/pages/sub%20pages/withdrawl_r.dart/withdrawl_root.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -291,6 +290,13 @@ class _HomePageSubState extends State<HomePageSub> {
 
                           // secound button
                           GestureDetector(
+                            onTap: (() {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const WithdrawlRoot()));
+                            }),
                             child: Container(
                               width: 120,
                               height: 35,
