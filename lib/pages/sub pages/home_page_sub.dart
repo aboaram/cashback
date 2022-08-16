@@ -1,11 +1,19 @@
+import 'dart:io';
+
 import 'package:cashback/pages/loader_page.dart';
 import 'package:cashback/pages/sub%20pages/quetsion_page.dart';
 import 'package:cashback/pages/sub%20pages/send_invite.dart';
+import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_five_tasks.dart';
+import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_four_tasks.dart';
+import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_one_tasks.dart';
+import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_three_tasks.dart';
+import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_two_tasks.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import '../../widget/custom_nav_bar.dart';
+import 'package:flutter/services.dart';
 
 class HomePageSub extends StatefulWidget {
   const HomePageSub({Key? key}) : super(key: key);
@@ -34,6 +42,7 @@ class _HomePageSubState extends State<HomePageSub> {
             double rewardbalance =
                 double.parse(data['rewardbalance'].toString());
             double allbalance = balance + teambalance + rewardbalance;
+            double vip = double.parse(data['balance'].toString());
 
             return Scaffold(
               backgroundColor: const Color(0xff202227),
@@ -61,9 +70,12 @@ class _HomePageSubState extends State<HomePageSub> {
                     padding: EdgeInsets.only(left: 20),
                     child: Row(
                       children: [
-                        Image.asset(
-                          'icon/lightning.png',
-                          scale: 0.99,
+                        /// secreat room
+                        GestureDetector(
+                          child: Image.asset(
+                            'icon/lightning.png',
+                            scale: 0.99,
+                          ),
                         ),
                         Container(
                           padding: EdgeInsets.only(left: 20),
@@ -162,12 +174,28 @@ class _HomePageSubState extends State<HomePageSub> {
                                     Icons.account_box,
                                     color: Colors.white.withOpacity(0.25),
                                   ),
-                                  Text(
-                                    'ID :  ${data['id']} ',
-                                    style: TextStyle(
-                                      fontFamily: 'SF Rounded',
-                                      fontSize: 16,
-                                      color: Colors.white.withOpacity(0.25),
+
+                                  // id copied
+
+                                  GestureDetector(
+                                    onDoubleTap: () {
+                                      Clipboard.setData(ClipboardData(
+                                              text: data['id'].toString()))
+                                          .then((_) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text(
+                                              'your Id number copied to clipboard'),
+                                        ));
+                                      });
+                                    },
+                                    child: Text(
+                                      'ID :  ${data['id']} ',
+                                      style: TextStyle(
+                                        fontFamily: 'SF Rounded',
+                                        fontSize: 16,
+                                        color: Colors.white.withOpacity(0.25),
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -526,7 +554,46 @@ class _HomePageSubState extends State<HomePageSub> {
                               color: Colors.white.withOpacity(0.1),
                               size: 30,
                             ),
-                            onPressed: null),
+                            onPressed: () {
+                              vip = double.parse(data['vip'].toString());
+                              if (vip == 5) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const VipFiveTasks()));
+                              } else {
+                                if (vip == 4) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const VipFourTasks()));
+                                } else {
+                                  if (vip == 3) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const VipThreeTasks()));
+                                  } else {
+                                    if (vip == 2) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const VipTwoTasks()));
+                                    } else {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const VipOneTasks()));
+                                    }
+                                  }
+                                }
+                              }
+                            }),
                         //
                         SizedBox(
                           height: 80,

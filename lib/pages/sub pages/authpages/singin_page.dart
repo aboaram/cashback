@@ -1,92 +1,46 @@
-import 'dart:math';
-
-import 'package:cashback/models/AppUser.dart';
-import 'package:cashback/service/firebase_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class SignUp extends StatefulWidget {
-  final VoidCallback showLoginPage;
-  const SignUp({Key? key, required this.showLoginPage}) : super(key: key);
+class SinginPage extends StatefulWidget {
+  final VoidCallback showRegisterPage;
+  const SinginPage({Key? key, required this.showRegisterPage})
+      : super(key: key);
 
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  _SinginPageState createState() => _SinginPageState();
 }
 
-class _SignUpPageState extends State<SignUp> {
+// controllat
+class _SinginPageState extends State<SinginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmpasswordController = TextEditingController();
-  final _NameController = TextEditingController();
-
+// stop controllar
   @override
   //todo
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    _confirmpasswordController.dispose();
-    _NameController.dispose();
+
     super.dispose();
   }
 
-  Future signUp() async {
-    //auth user
+  // singin future
+  Future signIn() async {
     try {
-      if (passwordConfirmed()) {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim(),
-        );
-        final UserCredential = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(
-                email: _emailController.text.trim(),
-                password: _passwordController.text.trim());
-        final user = UserCredential.user;
-        var rng = new Random();
-        var idcode = rng.nextInt(900000) + 100000;
-
-        var sog = new Random();
-        var invcode = sog.nextInt(900000) + 100000;
-        await FirestoreHelper(uid: user!.uid).creatUser(UserModel(
-          uid: user.uid,
-          name: _NameController.text.trim(),
-          email: _emailController.text.trim(),
-          balance: 0.0,
-          sid: 0,
-          vip: 0,
-          id: idcode,
-          active: false,
-          invitecode: invcode,
-          refcode: 0,
-          isactivebounas: true,
-          rewardbalance: 0.0,
-          wallet: '0',
-          depositwallet: '0',
-          phone: 0,
-          teambalance: 0.0,
-          isthiswalletin: false,
-        ));
-      }
-      ;
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
     } on FirebaseAuthException catch (e) {
       print(e);
       showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
-              content: Text(e.message.toString() + " your passord wrong "),
+              content: Text(e.message.toString()),
             );
           });
-    }
-  }
-
-  bool passwordConfirmed() {
-    if (_passwordController.text.trim() ==
-        _confirmpasswordController.text.trim()) {
-      return true;
-    } else {
-      return false;
     }
   }
 
@@ -94,7 +48,6 @@ class _SignUpPageState extends State<SignUp> {
   Widget build(BuildContext context) {
     var scrWidth = MediaQuery.of(context).size.width;
     var scrHeight = MediaQuery.of(context).size.height;
-
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -144,53 +97,7 @@ class _SignUpPageState extends State<SignUp> {
                   ////////
                   ///
                   ///
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 50.0, bottom: 8),
-                      child: Text(
-                        'Name',
-                        style: TextStyle(
-                          fontFamily: 'Product Sans',
-                          fontSize: 15,
-                          color: Color(0xff8f9db5),
-                        ),
-                      ),
-                    ),
-                  ),
 
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
-                    child: TextField(
-                        controller: _NameController,
-                        style: TextStyle(
-                            fontSize: 19,
-                            color: Color(0xff0962ff),
-                            fontWeight: FontWeight.bold),
-                        decoration: InputDecoration(
-                          hintText: "Name",
-                          hintStyle: TextStyle(
-                              fontSize: 18,
-                              color: Colors.grey[350],
-                              fontWeight: FontWeight.w600),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 27, horizontal: 25),
-                          focusColor: Color(0xff0962ff),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(color: Color(0xff0962ff)),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        )),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
@@ -300,48 +207,9 @@ class _SignUpPageState extends State<SignUp> {
                     ),
                   ),
 
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
-                    child: TextField(
-                        controller: _confirmpasswordController,
-                        style: TextStyle(
-                            fontSize: 19,
-                            color: Color(0xff0962ff),
-                            fontWeight: FontWeight.bold),
-                        decoration: InputDecoration(
-                          hintText: "Confirm password",
-                          hintStyle: TextStyle(
-                              fontSize: 18,
-                              color: Colors.grey[350],
-                              fontWeight: FontWeight.w600),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 27, horizontal: 25),
-                          focusColor: Color(0xff0962ff),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(color: Color(0xff0962ff)),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        )),
-                  ),
-                  Text(
-                    "Creating an account means you're okay with\nour Terms of Service and Privacy Policy",
-                    style: TextStyle(
-                      fontFamily: 'Product Sans',
-                      fontSize: 15.5,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff8f9db5).withOpacity(0.45),
-                    ),
-                    //
-                  ),
                   GestureDetector(
                     onTap: () {
-                      signUp();
+                      signIn();
                     },
                     child: Container(
                       margin: EdgeInsets.symmetric(vertical: 20),
@@ -353,7 +221,7 @@ class _SignUpPageState extends State<SignUp> {
                       ),
                       child: Center(
                         child: Text(
-                          'Create an Account',
+                          'Log In',
                           style: TextStyle(
                             fontFamily: 'ProductSans',
                             fontSize: 20,
@@ -368,7 +236,7 @@ class _SignUpPageState extends State<SignUp> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: 'Already have an account? ',
+                          text: 'Not a member ? ',
                           style: TextStyle(
                             fontFamily: 'Product Sans',
                             fontSize: 15,
@@ -377,7 +245,7 @@ class _SignUpPageState extends State<SignUp> {
                           ),
                         ),
                         TextSpan(
-                          text: 'Sign In',
+                          text: 'Sign up',
                           style: TextStyle(
                             fontFamily: 'Product Sans',
                             fontSize: 15,
@@ -386,7 +254,7 @@ class _SignUpPageState extends State<SignUp> {
                           ),
                           recognizer: new TapGestureRecognizer()
                             ..onTap = () {
-                              widget.showLoginPage();
+                              widget.showRegisterPage();
                             },
                         )
                       ],
