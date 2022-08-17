@@ -1,4 +1,5 @@
 import 'package:cashback/pages/loader_page.dart';
+import 'package:cashback/pages/sub%20pages/deposit/deposite_page.dart';
 import 'package:cashback/pages/sub%20pages/quetsion_page.dart';
 import 'package:cashback/pages/sub%20pages/send_invite.dart';
 import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_five_tasks.dart';
@@ -253,6 +254,13 @@ class _HomePageSubState extends State<HomePageSub> {
                           // first button
 
                           GestureDetector(
+                            onTap: (() {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const DepositePage()));
+                            }),
                             child: Container(
                               width: 90,
                               height: 35,
@@ -373,7 +381,8 @@ class _HomePageSubState extends State<HomePageSub> {
                   ),
                   Center(
                     child: Text(
-                      'be sure to invita as mush as you can frinds to your team\n        and you will get rewarded for ther works',
+                      textAlign: TextAlign.center,
+                      'be sure to invita as mush as you can frinds to your team\nand you will get rewarded for ther works',
                       style: TextStyle(
                         fontFamily: 'SF Pro Display',
                         fontSize: 13,
@@ -499,7 +508,7 @@ class _HomePageSubState extends State<HomePageSub> {
                 child: Transform.translate(
                   offset: Offset(0, 18),
                   child: GestureDetector(
-                    onTap: () {
+                    onLongPress: () {
                       FirebaseAuth.instance.signOut();
                     },
                     child: Container(
