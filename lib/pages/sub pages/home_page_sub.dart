@@ -2,6 +2,7 @@ import 'package:cashback/pages/loader_page.dart';
 import 'package:cashback/pages/sub%20pages/deposit/deposite_page.dart';
 import 'package:cashback/pages/sub%20pages/quetsion_page.dart';
 import 'package:cashback/pages/sub%20pages/send_invite.dart';
+import 'package:cashback/pages/sub%20pages/vip_list.dart';
 import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_five_tasks.dart';
 import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_four_tasks.dart';
 import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_one_tasks.dart';
@@ -509,12 +510,12 @@ class _HomePageSubState extends State<HomePageSub> {
                 child: Transform.translate(
                   offset: Offset(0, 18),
                   child: GestureDetector(
-                    // onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //     MaterialPageRoute(
-                    //        builder: (context) => const VipsPage()));
-                    // },
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const VipList()));
+                    },
                     onLongPress: () {
                       FirebaseAuth.instance.signOut();
                     },

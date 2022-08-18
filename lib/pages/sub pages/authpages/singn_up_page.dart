@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:cashback/models/AppUser.dart';
 import 'package:cashback/service/firebase_helper.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,24 @@ class _SignUpPageState extends State<SignUp> {
 
         var sog = new Random();
         var invcode = sog.nextInt(900000) + 100000;
+        await FirebaseAuth.instance
+            .authStateChanges()
+            .listen((User? user) async {
+          if (user != null) {
+            final Appuser = FirebaseAuth.instance.currentUser;
+            await FirebaseFirestore.instance
+                .collection('invitecode')
+                .doc(Appuser!.uid)
+                .update({'invcode': invcode, 'id': idcode});
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(Appuser.uid)
+                .collection('question')
+                .doc('history')
+                .set({'paytoyou': '', 'paytous': '', 'problim': ''});
+          }
+        });
+
         await FirestoreHelper(uid: user!.uid).creatUser(UserModel(
           uid: user.uid,
           name: _NameController.text.trim(),
