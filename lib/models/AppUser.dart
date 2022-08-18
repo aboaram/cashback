@@ -136,3 +136,5 @@ class UserData {
     required this.isthiswalletin,
   });
 }
+
+class vipModel {}

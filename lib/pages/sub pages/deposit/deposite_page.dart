@@ -165,6 +165,27 @@ class _DepositePageState extends State<DepositePage> {
                             width: 100,
                             child: Visibility(
                               child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    firsttalk = !firsttalk;
+                                    secoundtalk = !secoundtalk;
+                                    showFirst = !showFirst;
+                                    showSec = !showSec;
+                                    shownex = !shownex;
+                                  });
+
+                                  Clipboard.setData(ClipboardData(
+                                          text:
+                                              'TC1CbUTfz1tFzG2dmJycv5CrmVRQ3LEscK'))
+                                      .then((_) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                            'Wallet addres copied to clipboard'),
+                                      ),
+                                    );
+                                  });
+                                },
                                 child: Container(
                                   child: Center(
                                     child: Text(
@@ -187,6 +208,27 @@ class _DepositePageState extends State<DepositePage> {
                             width: 100,
                             child: Visibility(
                               child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    firsttalk = !firsttalk;
+                                    secoundtalk = !secoundtalk;
+                                    showFirst = !showFirst;
+                                    showSec = !showSec;
+                                    shownex = !shownex;
+                                  });
+
+                                  Clipboard.setData(ClipboardData(
+                                          text:
+                                              'TW6t8d1ZmLPx8SDsmsKbiW6yCqUvh14afx'))
+                                      .then((_) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                            'Wallet addres copied to clipboard'),
+                                      ),
+                                    );
+                                  });
+                                },
                                 child: Container(
                                   child: Center(
                                     child: Text(
@@ -225,6 +267,27 @@ class _DepositePageState extends State<DepositePage> {
                             width: 100,
                             child: Visibility(
                               child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    firsttalk = !firsttalk;
+                                    secoundtalk = !secoundtalk;
+                                    showFirst = !showFirst;
+                                    showSec = !showSec;
+                                    shownex = !shownex;
+                                  });
+
+                                  Clipboard.setData(ClipboardData(
+                                          text:
+                                              'TBZSJeGwV2FNxzSJ47ba4W5oyCkzJyLsQv'))
+                                      .then((_) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                            'Wallet addres copied to clipboard'),
+                                      ),
+                                    );
+                                  });
+                                },
                                 child: Container(
                                   child: Center(
                                     child: Text(
@@ -247,6 +310,27 @@ class _DepositePageState extends State<DepositePage> {
                             width: 100,
                             child: Visibility(
                               child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    firsttalk = !firsttalk;
+                                    secoundtalk = !secoundtalk;
+                                    showFirst = !showFirst;
+                                    showSec = !showSec;
+                                    shownex = !shownex;
+                                  });
+
+                                  Clipboard.setData(ClipboardData(
+                                          text:
+                                              'TBZSJeGwV2FNxzSJ47ba4W5oyCkzJyLsQv'))
+                                      .then((_) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                            'Wallet addres copied to clipboard'),
+                                      ),
+                                    );
+                                  });
+                                },
                                 child: Container(
                                   child: Center(
                                     child: Text(
@@ -316,16 +400,25 @@ class _DepositePageState extends State<DepositePage> {
                                 .authStateChanges()
                                 .listen((User? user) async {
                               if (user != null) {
-                                for (final providerProfile
-                                    in user.providerData) {
-                                  final uid = providerProfile.uid;
-                                  await FirebaseFirestore.instance
-                                      .collection('users')
-                                      .doc(uid)
-                                      .set({
-                                    'depositwallet': wallet.text.trim()
-                                  });
-                                }
+                                final Appuser =
+                                    FirebaseAuth.instance.currentUser;
+                                await FirebaseFirestore.instance
+                                    .collection('depositRequist')
+                                    .doc(Appuser!.uid)
+                                    .set({'depositwallet': wallet.text.trim()});
+                              }
+                            });
+                            FirebaseAuth.instance
+                                .authStateChanges()
+                                .listen((User? user) async {
+                              if (user != null) {
+                                final Appuser =
+                                    FirebaseAuth.instance.currentUser;
+                                await FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(Appuser!.uid)
+                                    .update(
+                                        {'depositwallet': wallet.text.trim()});
                               }
                             });
 

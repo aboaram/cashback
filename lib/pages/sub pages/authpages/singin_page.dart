@@ -192,20 +192,6 @@ class _SinginPageState extends State<SinginPage> {
                   SizedBox(
                     height: 20,
                   ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 50.0, bottom: 8),
-                      child: Text(
-                        'Confirm Password',
-                        style: TextStyle(
-                          fontFamily: 'Product Sans',
-                          fontSize: 15,
-                          color: Color(0xff8f9db5),
-                        ),
-                      ),
-                    ),
-                  ),
 
                   GestureDetector(
                     onTap: () {

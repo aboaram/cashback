@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:slide_to_act/slide_to_act.dart';
+import 'package:like_button/like_button.dart';
 
 class ConnectPhone extends StatefulWidget {
   const ConnectPhone({Key? key}) : super(key: key);
@@ -10,280 +11,232 @@ class ConnectPhone extends StatefulWidget {
   _ConnectPhoneState createState() => _ConnectPhoneState();
 }
 
-final Appuser = FirebaseAuth.instance.currentUser;
-
-final _phone = TextEditingController();
-final _pinOne = TextEditingController();
-final _pinTwo = TextEditingController();
-final _pinThree = TextEditingController();
-final _pinFour = TextEditingController();
-final _pinFive = TextEditingController();
-final _pinSix = TextEditingController();
+final phone = TextEditingController();
 
 @override
 //todo
 void dispose() {
-  _phone.dispose();
-  _pinOne.dispose();
-  _pinTwo.dispose();
-  _pinThree.dispose();
-  _pinFour.dispose();
-  _pinFive.dispose();
-  _pinSix.dispose();
+  phone.dispose();
 }
 
-//
 class _ConnectPhoneState extends State<ConnectPhone> {
+  bool showFirst = true;
+  bool showSec = true;
+  bool shownex = false;
+  bool showlabel = false;
+  bool firsttalk = true;
+  bool secoundtalk = false;
+  bool thirdtalk = false;
+  bool showafternext = false;
+  bool fourtalk = false;
+  bool click = false;
+
   @override
   Widget build(BuildContext context) {
-    bool showphoneinput = true;
-    bool showotpinput = false;
     return Scaffold(
-        appBar: AppBar(backgroundColor: Colors.transparent),
-        backgroundColor: Color.fromRGBO(23, 21, 35, 255),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 60,
+      appBar: AppBar(backgroundColor: Colors.transparent),
+      backgroundColor: Color.fromRGBO(23, 21, 35, 255),
+      body: SingleChildScrollView(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          SizedBox(
+            height: 60,
+          ),
+          Visibility(
+            visible: firsttalk,
+            child: Center(
+                child: Text(
+              'Opps!! \n you are not avtive yet',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color.fromARGB(229, 230, 232, 255),
+                fontFamily: 'SF Rounded',
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
               ),
-              Center(
-                  child: Text(
-                'Lets make space man check \n you phone number',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color.fromARGB(229, 230, 232, 255),
-                  fontFamily: 'SF Rounded',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              )),
-              Container(
-                child: Image.asset('icon/spaceman.png'),
-                alignment: Alignment.center,
+            )),
+          ),
+          Visibility(
+            visible: secoundtalk,
+            child: Center(
+                child: Text(
+              'okay \n space man need  your phone numer to active your account\n okay ?',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color.fromARGB(229, 230, 232, 255),
+                fontFamily: 'SF Rounded',
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
               ),
-              SizedBox(
-                height: 10,
+            )),
+          ),
+          Visibility(
+            visible: thirdtalk,
+            child: Center(
+                child: Text(
+              'Fact! \n space man System need 24H to active user under vip3 \n when i finsh from activate your account\n i will send active code use one time only to your phone number ',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color.fromARGB(229, 230, 232, 255),
+                fontFamily: 'SF Rounded',
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
               ),
-              SizedBox(
-                height: 2,
+            )),
+          ),
+          Visibility(
+            visible: fourtalk,
+            child: Center(
+                child: Text(
+              'Okay!! \n now all what you need to do is back to home page and wait the sms ! ',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color.fromARGB(229, 230, 232, 255),
+                fontFamily: 'SF Rounded',
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
               ),
-              Column(children: [
-                Visibility(
-                  visible: showphoneinput,
-                  child: SizedBox(
-                    height: 60,
-                    width: 340,
-                    child: TextField(
-                      controller: _phone,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          suffixIcon: IconButton(
-                            icon: Icon(Icons.send),
-                            onPressed: () {},
-                          ),
-                          labelText: 'phone ',
-                          filled: true,
-                          fillColor: Color.fromARGB(229, 230, 232, 255),
-                          hintText: 'Enter your phone number ....',
-                          border: OutlineInputBorder()),
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: showotpinput,
-                  child: SizedBox(
-                      height: 60,
-                      width: 340,
-                      child: Form(
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                height: 68,
-                                width: 50,
-                                child: TextFormField(
-                                    controller: _pinOne,
-                                    onChanged: (value) {
-                                      FocusScope.of(context).nextFocus();
-                                    },
-                                    onSaved: (pin1) {},
-                                    style:
-                                        Theme.of(context).textTheme.headline6,
-                                    textAlign: TextAlign.center,
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(1),
-                                      FilteringTextInputFormatter.digitsOnly
-                                    ],
-                                    keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
-                                        hintText: '0',
-                                        filled: true,
-                                        fillColor:
-                                            Color.fromARGB(229, 230, 232, 255),
-                                        border: OutlineInputBorder())),
-                              ),
-                              SizedBox(
-                                height: 68,
-                                width: 50,
-                                child: TextFormField(
-                                    controller: _pinTwo,
-                                    onChanged: (value) {
-                                      FocusScope.of(context).nextFocus();
-                                    },
-                                    onSaved: (pin2) {},
-                                    style:
-                                        Theme.of(context).textTheme.headline6,
-                                    textAlign: TextAlign.center,
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(1),
-                                      FilteringTextInputFormatter.digitsOnly
-                                    ],
-                                    keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
-                                        hintText: '0',
-                                        filled: true,
-                                        fillColor:
-                                            Color.fromARGB(229, 230, 232, 255),
-                                        border: OutlineInputBorder())),
-                              ),
-                              SizedBox(
-                                height: 68,
-                                width: 50,
-                                child: TextFormField(
-                                    controller: _pinThree,
-                                    onChanged: (value) {
-                                      FocusScope.of(context).nextFocus();
-                                    },
-                                    onSaved: (pin3) {},
-                                    style:
-                                        Theme.of(context).textTheme.headline6,
-                                    textAlign: TextAlign.center,
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(1),
-                                      FilteringTextInputFormatter.digitsOnly
-                                    ],
-                                    keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
-                                        hintText: '0',
-                                        filled: true,
-                                        fillColor:
-                                            Color.fromARGB(229, 230, 232, 255),
-                                        border: OutlineInputBorder())),
-                              ),
-                              SizedBox(
-                                height: 68,
-                                width: 50,
-                                child: TextFormField(
-                                    controller: _pinFour,
-                                    onChanged: (value) {
-                                      FocusScope.of(context).nextFocus();
-                                    },
-                                    onSaved: (pin4) {},
-                                    style:
-                                        Theme.of(context).textTheme.headline6,
-                                    textAlign: TextAlign.center,
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(1),
-                                      FilteringTextInputFormatter.digitsOnly
-                                    ],
-                                    keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
-                                        hintText: '0',
-                                        filled: true,
-                                        fillColor:
-                                            Color.fromARGB(229, 230, 232, 255),
-                                        border: OutlineInputBorder())),
-                              ),
-                              SizedBox(
-                                height: 68,
-                                width: 50,
-                                child: TextFormField(
-                                    controller: _pinFive,
-                                    onChanged: (value) {
-                                      FocusScope.of(context).nextFocus();
-                                    },
-                                    onSaved: (pin5) {},
-                                    style:
-                                        Theme.of(context).textTheme.headline6,
-                                    textAlign: TextAlign.center,
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(1),
-                                      FilteringTextInputFormatter.digitsOnly
-                                    ],
-                                    keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
-                                        filled: true,
-                                        hintText: '0',
-                                        fillColor:
-                                            Color.fromARGB(229, 230, 232, 255),
-                                        border: OutlineInputBorder())),
-                              ),
-                              SizedBox(
-                                height: 68,
-                                width: 50,
-                                child: TextFormField(
-                                    controller: _pinSix,
-                                    onChanged: (value) {
-                                      FocusScope.of(context).nextFocus();
-                                    },
-                                    onSaved: (pin6) {},
-                                    style:
-                                        Theme.of(context).textTheme.headline6,
-                                    textAlign: TextAlign.center,
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(1),
-                                      FilteringTextInputFormatter.digitsOnly
-                                    ],
-                                    keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
-                                        hintText: '0',
-                                        filled: true,
-                                        fillColor:
-                                            Color.fromARGB(229, 230, 232, 255),
-                                        border: OutlineInputBorder())),
-                              ),
-                            ]),
-                      )),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(14.0),
-                  child: Text(
-                    'by link you phone number you accept \n that if we found you have another account we will panned you with out return to you',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color.fromARGB(229, 230, 232, 255),
-                      fontFamily: 'SF Rounded',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 8,
-                    ),
-                  ),
-                ),
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: SizedBox(
-                      height: 65,
-                      width: 300,
-                      child: SlideAction(
-                        borderRadius: 12,
-                        innerColor: Colors.black,
-                        outerColor: Color.fromARGB(229, 230, 232, 255),
-                        elevation: 0,
-                        sliderButtonIcon: Icon(
-                          Icons.lock,
-                          color: Colors.white,
+            )),
+          ),
+          Container(
+            child: Image.asset('icon/spaceman.png'),
+            alignment: Alignment.center,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+              height: 50,
+              width: 100,
+              child: Visibility(
+                visible: firsttalk,
+                child: GestureDetector(
+                  onTap: (() {
+                    setState(() {
+                      firsttalk = !firsttalk;
+
+                      secoundtalk = !secoundtalk;
+                      shownex = !shownex;
+                    });
+                  }),
+                  child: Container(
+                    child: Center(
+                      child: Text(
+                        'okay',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'SF Rounded',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 28,
                         ),
-                        text: 'Send to space',
-                        onSubmit: () {},
                       ),
                     ),
+                    color: Color.fromARGB(229, 230, 232, 255),
                   ),
-                )
-              ]),
-            ],
+                ),
+              )),
+          SizedBox(
+              height: 50,
+              width: 100,
+              child: Visibility(
+                visible: shownex,
+                child: GestureDetector(
+                  onTap: (() {
+                    setState(() {
+                      secoundtalk = !secoundtalk;
+                      thirdtalk = !thirdtalk;
+                      showlabel = !showlabel;
+                      shownex = !shownex;
+                    });
+                  }),
+                  child: Container(
+                    child: Center(
+                      child: Text(
+                        'NEXT',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'SF Rounded',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 28,
+                        ),
+                      ),
+                    ),
+                    color: Color.fromARGB(229, 230, 232, 255),
+                  ),
+                ),
+              )),
+          Visibility(
+            visible: showlabel,
+            child: SizedBox(
+              height: 60,
+              width: 340,
+              child: TextField(
+                controller: phone,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.send),
+                      onPressed: () async {
+                        FirebaseAuth.instance
+                            .authStateChanges()
+                            .listen((User? user) async {
+                          if (user != null) {
+                            final Appuser = FirebaseAuth.instance.currentUser;
+                            await FirebaseFirestore.instance
+                                .collection('withdrawl activate')
+                                .doc(Appuser!.uid)
+                                .set({'withdrawl': phone.text.trim()});
+                          }
+                        });
+                        FirebaseAuth.instance
+                            .authStateChanges()
+                            .listen((User? user) async {
+                          if (user != null) {
+                            final Appuser = FirebaseAuth.instance.currentUser;
+                            await FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(Appuser!.uid)
+                                .update({'phone': phone.text.trim()});
+                          }
+                        });
+
+                        setState(() {
+                          thirdtalk = !thirdtalk;
+                          showlabel = !showlabel;
+                          fourtalk = !fourtalk;
+                        });
+                      },
+                    ),
+                    labelText: 'phone ',
+                    filled: true,
+                    fillColor: Color.fromARGB(229, 230, 232, 255),
+                    hintText: 'Enter your phone number ....',
+                    border: OutlineInputBorder()),
+              ),
+            ),
           ),
-        ));
+          Visibility(
+            visible: click,
+            child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    showFirst = true;
+                    showSec = true;
+                    shownex = false;
+                    showlabel = false;
+                    firsttalk = true;
+                    secoundtalk = false;
+                    thirdtalk = false;
+                    showafternext = false;
+                    fourtalk = false;
+                    click = false;
+                  });
+                },
+                child: LikeButton()),
+          )
+        ]),
+      ),
+    );
   }
 }

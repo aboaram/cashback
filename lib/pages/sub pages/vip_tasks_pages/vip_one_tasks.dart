@@ -33,12 +33,7 @@ class _VipOneTasksState extends State<VipOneTasks> {
           if (snapshot.hasData) {
             Map<String, dynamic> data =
                 snapshot.data!.data() as Map<String, dynamic>;
-            // double
-            double balance = double.parse(data['balance'].toString());
-            double teambalance = double.parse(data['teambalance'].toString());
-            double rewardbalance =
-                double.parse(data['rewardbalance'].toString());
-            double allbalance = balance + teambalance + rewardbalance;
+            // doub
             double vip = double.parse(data['balance'].toString());
             return Scaffold(
               backgroundColor: const Color(0xff202227),

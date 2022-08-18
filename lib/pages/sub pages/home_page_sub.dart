@@ -7,6 +7,7 @@ import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_four_tasks.dart';
 import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_one_tasks.dart';
 import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_three_tasks.dart';
 import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_two_tasks.dart';
+import 'package:cashback/pages/sub%20pages/vips_page.dart';
 import 'package:cashback/pages/sub%20pages/withdrawl_r.dart/withdrawl_root.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -42,7 +43,7 @@ class _HomePageSubState extends State<HomePageSub> {
             double rewardbalance =
                 double.parse(data['rewardbalance'].toString());
             double allbalance = balance + teambalance + rewardbalance;
-            double vip = double.parse(data['balance'].toString());
+            double vip = double.parse(data['vip'].toString());
 
             return Scaffold(
               backgroundColor: const Color(0xff202227),
@@ -468,7 +469,7 @@ class _HomePageSubState extends State<HomePageSub> {
                           width: 4,
                         ),
                         Text(
-                          '0 ',
+                          data['sid'].toString(),
                           style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontSize: 26,
@@ -508,6 +509,12 @@ class _HomePageSubState extends State<HomePageSub> {
                 child: Transform.translate(
                   offset: Offset(0, 18),
                   child: GestureDetector(
+                    // onTap: () {
+                    // Navigator.push(
+                    //   context,
+                    //     MaterialPageRoute(
+                    //        builder: (context) => const VipsPage()));
+                    // },
                     onLongPress: () {
                       FirebaseAuth.instance.signOut();
                     },
