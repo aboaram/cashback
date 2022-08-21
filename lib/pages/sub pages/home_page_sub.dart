@@ -36,13 +36,11 @@ class _HomePageSubState extends State<HomePageSub> {
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasData) {
-            Map<String, dynamic> data =
-                snapshot.data!.data() as Map<String, dynamic>;
+            Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
             // double
             double balance = double.parse(data['balance'].toString());
             double teambalance = double.parse(data['teambalance'].toString());
-            double rewardbalance =
-                double.parse(data['rewardbalance'].toString());
+            double rewardbalance = double.parse(data['rewardbalance'].toString());
             double allbalance = balance + teambalance + rewardbalance;
             double vip = double.parse(data['vip'].toString());
 
