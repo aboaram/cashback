@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../widget/custom_nav_bar.dart';
@@ -44,6 +45,40 @@ class _VipOneTasksState extends State<VipOneTasks> {
     setState(() {});
   }
 
+  List<String>? SavedTasks;
+  String? _dateTime;
+  Future getSavedTaskId()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    SavedTasks = (await prefs.getKeys()).toList() as List<String>?;
+    print("SavedTasks: ${SavedTasks}");
+  }
+
+  setDateTime()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _dateTime = (await prefs.setString('dateTime', DateTime.now().toString())) as String?;
+    print("_dateTime: ${_dateTime}");
+  }
+
+  clearPref()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String savedDate = await prefs.getString('dateTime').toString();
+    print("savedDate: ${savedDate}");
+    if(savedDate !=  DateTime.now().toString()){
+      await prefs.clear();
+    }
+    else{
+      setDateTime();
+    }
+    // prefs.clear();
+  }
+
+  @override
+  initState(){
+    super.initState();
+    getSavedTaskId();
+    clearPref();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Appuser = FirebaseAuth.instance.currentUser;
@@ -71,8 +106,7 @@ class _VipOneTasksState extends State<VipOneTasks> {
       body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance.collection("task ").snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            print("snapshot.data ${snapshot.data!.docs.length}");
-            if (snapshot.connectionState == ConnectionState.waiting) {
+             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             } else {
               var taskLength = snapshot.data!.docs.length;
@@ -94,19 +128,21 @@ class _VipOneTasksState extends State<VipOneTasks> {
                                             : taskLength,
                     itemBuilder: (ctx, index) {
                       var item = snapshot.data!.docs[index];
-                      return Padding(
+
+                      return SavedTasks!.contains("doneTask${index}") ? Container() :
+                      Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: ListTile(
                           onTap: () async {
-                            // url launccher
-                            if (await canLaunch(item.get("redirect_link"))) {
-                              await launch(item.get("redirect_link"));
+                            if (await canLaunch(item.get("link"))) {
+                              await launch(item.get("link"));
                             } else {
-                              throw 'Could not launch ${item.get("redirect_link")}';
+                              throw 'Could not launch ${item.get("link")}';
                             }
                           },
                           trailing: GestureDetector(
                             onTap: () async{
+                              SharedPreferences pref = await SharedPreferences.getInstance();
                               await getImage();
 
 
@@ -133,9 +169,12 @@ class _VipOneTasksState extends State<VipOneTasks> {
                                     'balance': newBalance,
                                   });
                                 });
-
+                                  /// saved the task which user completed
+                                String taskID =  snapshot.data!.docs[index].id;
+                                await pref.setString("doneTask${index}", taskID);
+                                await getSavedTaskId();
+                                setState(() {});
                               }
-
                             },
                             child: Column(
                               children: [
