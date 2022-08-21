@@ -19,7 +19,8 @@ import '../home_page_sub.dart';
 import '../quetsion_page.dart';
 
 class VipOneTasks extends StatefulWidget {
-  const VipOneTasks({Key? key}) : super(key: key);
+var vip;
+VipOneTasks({this.vip});
 
   @override
   _VipOneTasksState createState() => _VipOneTasksState();
@@ -42,6 +43,7 @@ class _VipOneTasksState extends State<VipOneTasks> {
     print("_image: "+ _image.toString());
     setState(() {});
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,20 +69,26 @@ class _VipOneTasksState extends State<VipOneTasks> {
           stream: FirebaseFirestore.instance.collection("task ").snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
             print("snapshot.data ${snapshot.data!.docs.length}");
-            if(snapshot.hasError){
-              return Text("Error ${snapshot.error}");
-            }
             if(snapshot.connectionState == ConnectionState.waiting){
               return Center(child: CircularProgressIndicator());
-            }
-            if(snapshot.data!.docs.length == 0){
-              return Center(child: Text("No Task"));
-            }
-            else{
+            }else{
+              var taskLength = snapshot.data!.docs.length;
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 child: ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
+                    itemCount: widget.vip == 0
+                        ? 2
+                        : widget.vip == 1
+                        ? 5
+                        : widget.vip == 2
+                        ? 10
+                        : widget.vip == 3
+                        ? 18
+                        : widget.vip == 4
+                        ? 32
+                        : widget.vip == 5
+                        ? taskLength
+                        : taskLength,
                     itemBuilder: (ctx, index) {
                       var item = snapshot.data!.docs[index];
                       return Padding(
@@ -89,9 +97,9 @@ class _VipOneTasksState extends State<VipOneTasks> {
                           onTap: ()async{
                             // url launccher
                             if(await canLaunch(item.get("redirect_link"))){
-                            await launch(item.get("redirect_link"));
+                              await launch(item.get("redirect_link"));
                             }else {
-                            throw 'Could not launch ${item.get("redirect_link")}';
+                              throw 'Could not launch ${item.get("redirect_link")}';
                             }
                           },
                           trailing: GestureDetector(
@@ -117,7 +125,6 @@ class _VipOneTasksState extends State<VipOneTasks> {
                     }),
               );
             }
-
-      }),);
+          }),);
   }
 }

@@ -693,8 +693,7 @@ class _WithdrawlState extends State<Withdrawl> {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const VipOneTasks()));
+                                              builder: (context) => VipOneTasks()));
                                     }
                                   }
                                 }

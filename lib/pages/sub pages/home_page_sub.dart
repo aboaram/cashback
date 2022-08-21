@@ -576,44 +576,10 @@ class _HomePageSubState extends State<HomePageSub> {
                               size: 30,
                             ),
                             onPressed: () {
-                              vip = double.parse(data['vip'].toString());
-                              if (vip == 5) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const VipFiveTasks()));
-                              } else {
-                                if (vip == 4) {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const VipFourTasks()));
-                                } else {
-                                  if (vip == 3) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const VipThreeTasks()));
-                                  } else {
-                                    if (vip == 2) {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const VipTwoTasks()));
-                                    } else {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const VipOneTasks()));
-                                    }
-                                  }
-                                }
-                              }
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => VipOneTasks(vip: vip)));
                             }),
                         //
                         SizedBox(
