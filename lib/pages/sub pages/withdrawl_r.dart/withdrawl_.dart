@@ -32,329 +32,455 @@ void dispose() {
 class _WithdrawlState extends State<Withdrawl> {
   //if not active
   bool showfirst = false;
+
   //if not have 10$
   bool showsec = false;
+
   //if all good
   bool showthird = false;
+
   @override
   Widget build(BuildContext context) {
     final Appuser = FirebaseAuth.instance.currentUser;
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     return FutureBuilder<DocumentSnapshot>(
         future: users.doc(Appuser!.uid).get(),
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasData) {
-            Map<String, dynamic> data =
-                snapshot.data!.data() as Map<String, dynamic>;
+            Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
             // double
             double balance = double.parse(data['balance'].toString());
             double teambalance = double.parse(data['teambalance'].toString());
-            double rewardbalance =
-                double.parse(data['rewardbalance'].toString());
+            double rewardbalance = double.parse(data['rewardbalance'].toString());
             double allbalance = balance + teambalance + rewardbalance;
             double vip = double.parse(data['vip'].toString());
             bool active = data['active'];
 
             return Scaffold(
               backgroundColor: const Color(0xff202227),
-              body: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 30, top: 20),
-                      child: Text(
-                        "CashBack jo 💸 ",
-                        style: TextStyle(
-                          fontFamily: 'SF Rounded',
-                          fontSize: 32,
-                          color: Colors.white,
+              body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 30, top: 20),
+                  child: Text(
+                    "CashBack jo 💸 ",
+                    style: TextStyle(
+                      fontFamily: 'SF Rounded',
+                      fontSize: 32,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+
+                //  Balance section
+
+                Container(
+                  padding: EdgeInsets.only(left: 20),
+                  child: Row(
+                    children: [
+                      /// secreat room
+                      GestureDetector(
+                        child: Image.asset(
+                          'icon/lightning.png',
+                          scale: 0.99,
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-
-                    //  Balance section
-
-                    Container(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Row(
-                        children: [
-                          /// secreat room
-                          GestureDetector(
-                            child: Image.asset(
-                              'icon/lightning.png',
-                              scale: 0.99,
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: 20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      allbalance.toString(),
-                                      // userData!.name.toString(),
-                                      style: TextStyle(
-                                          fontSize: 54,
-                                          color: Color(0xffffffff)
-                                              .withOpacity(0.70),
-                                          fontWeight: FontWeight.w200),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      'USDT',
-                                      style: TextStyle(
-                                          fontSize: 26,
-                                          color: Colors.white.withOpacity(0.7),
-                                          fontFamily: 'SF Rounded',
-                                          fontWeight: FontWeight.w200),
-                                    ),
-                                    SizedBox(
-                                      width: 40,
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  'your balnce now',
-                                  style: TextStyle(
-                                    fontFamily: 'SF Pro Display',
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w300,
-                                    letterSpacing: 0.72,
-                                    color: Colors.white.withOpacity(0.11),
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-
-                    // user box
-
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      width: 413,
-                      height: 106,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1.15,
-                          color: const Color(0xff707070).withOpacity(0.28),
-                        ),
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Image.asset('icon/profilesircal.png'),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: 2, right: 15),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                      Container(
+                        padding: EdgeInsets.only(left: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  //name
-                                  data['name'],
+                                  allbalance.toString(),
+                                  // userData!.name.toString(),
                                   style: TextStyle(
-                                    fontFamily: 'SF Rounded',
-                                    fontSize: 26,
-                                    color: Colors.white,
-                                  ),
+                                      fontSize: 54,
+                                      color: Color(0xffffffff).withOpacity(0.70),
+                                      fontWeight: FontWeight.w200),
+                                  textAlign: TextAlign.left,
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Icon(
-                                      Icons.account_box,
-                                      color: Colors.white.withOpacity(0.25),
-                                    ),
-
-                                    // id copied
-
-                                    GestureDetector(
-                                      onDoubleTap: () {
-                                        Clipboard.setData(ClipboardData(
-                                                text: data['id'].toString()))
-                                            .then((_) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                            content: Text(
-                                                'your Id number copied to clipboard'),
-                                          ));
-                                        });
-                                      },
-                                      child: Text(
-                                        'ID :  ${data['id']} ',
-                                        style: TextStyle(
-                                          fontFamily: 'SF Rounded',
-                                          fontSize: 16,
-                                          color: Colors.white.withOpacity(0.25),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                )
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  'USDT',
+                                  style: TextStyle(
+                                      fontSize: 26,
+                                      color: Colors.white.withOpacity(0.7),
+                                      fontFamily: 'SF Rounded',
+                                      fontWeight: FontWeight.w200),
+                                ),
+                                SizedBox(
+                                  width: 40,
+                                ),
                               ],
                             ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          //
-
-                          Container(
-                            width: 77,
-                            height: 29,
-                            decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                begin: Alignment(0.01, 0.13),
-                                end: Alignment(0.97, 0.84),
-                                colors: [Color(0xff79fd7b), Color(0xff3dcd98)],
+                            Text(
+                              'your balnce now',
+                              style: TextStyle(
+                                fontFamily: 'SF Pro Display',
+                                fontSize: 18,
+                                fontWeight: FontWeight.w300,
+                                letterSpacing: 0.72,
+                                color: Colors.white.withOpacity(0.11),
                               ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'VIP : ${data['vip']} ',
-                                style: TextStyle(
-                                  fontFamily: 'SF Rounded',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                  color: Colors.black.withOpacity(0.72),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      width: 413,
-                      height: 5,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          top: BorderSide(
-                              width: 1.15,
-                              color: const Color(0xff707070).withOpacity(0.28)),
+                            )
+                          ],
                         ),
-                      ),
-                    ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
 
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          GestureDetector(
-                            child: Text(
-                              'Balance',
+                // user box
+
+                Container(
+                  margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  width: 413,
+                  height: 106,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1.15,
+                      color: const Color(0xff707070).withOpacity(0.28),
+                    ),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Image.asset('icon/profilesircal.png'),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 2, right: 15),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              //name
+                              data['name'],
                               style: TextStyle(
                                 fontFamily: 'SF Rounded',
                                 fontSize: 26,
-                                fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
                             ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Icon(
+                                  Icons.account_box,
+                                  color: Colors.white.withOpacity(0.25),
+                                ),
+
+                                // id copied
+
+                                GestureDetector(
+                                  onDoubleTap: () {
+                                    Clipboard.setData(ClipboardData(text: data['id'].toString())).then((_) {
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                        content: Text('your Id number copied to clipboard'),
+                                      ));
+                                    });
+                                  },
+                                  child: Text(
+                                    'ID :  ${data['id']} ',
+                                    style: TextStyle(
+                                      fontFamily: 'SF Rounded',
+                                      fontSize: 16,
+                                      color: Colors.white.withOpacity(0.25),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      //
+
+                      Container(
+                        width: 77,
+                        height: 29,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            begin: Alignment(0.01, 0.13),
+                            end: Alignment(0.97, 0.84),
+                            colors: [Color(0xff79fd7b), Color(0xff3dcd98)],
                           ),
-                          Text(
-                            'Reward',
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'VIP : ${data['vip']} ',
                             style: TextStyle(
                               fontFamily: 'SF Rounded',
-                              fontSize: 26,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          GestureDetector(
-                            child: Text(
-                              (balance + rewardbalance).toString(),
-                              style: TextStyle(
-                                fontFamily: 'SF Rounded',
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
+                              fontSize: 20,
+                              color: Colors.black.withOpacity(0.72),
                             ),
                           ),
-                          Text(
-                            teambalance.toString(),
-                            style: TextStyle(
-                              fontFamily: 'SF Rounded',
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          )
-                        ],
+                        ),
                       ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  width: 413,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(width: 1.15, color: const Color(0xff707070).withOpacity(0.28)),
                     ),
+                  ),
+                ),
 
-                    SizedBox(
-                      height: 10,
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GestureDetector(
+                        child: Text(
+                          'Balance',
+                          style: TextStyle(
+                            fontFamily: 'SF Rounded',
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        'Reward',
+                        style: TextStyle(
+                          fontFamily: 'SF Rounded',
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GestureDetector(
+                        child: Text(
+                          (balance + rewardbalance).toString(),
+                          style: TextStyle(
+                            fontFamily: 'SF Rounded',
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        teambalance.toString(),
+                        style: TextStyle(
+                          fontFamily: 'SF Rounded',
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+
+                SizedBox(
+                  height: 10,
+                ),
+
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            if (active == false) {
+                              setState(() {
+                                showfirst = !showfirst;
+                              });
+                            } else {
+                              if (balance < 10) {
+                                setState(() {
+                                  showsec = !showsec;
+                                });
+                              } else {
+                                setState(() {
+                                  showthird = !showthird;
+                                });
+                              }
+                            }
+                          },
+                          child: Text('Withdrawl')),
+                      ElevatedButton(
+                          onPressed: () {
+                            FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+                              if (user != null) {
+                                final Appuser = FirebaseAuth.instance.currentUser;
+                                await FirebaseFirestore.instance
+                                    .collection('teamrewardbalance')
+                                    .doc(Appuser!.uid)
+                                    .update({'wallet': wallet.text.trim()});
+                              }
+                            });
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return Dialog(
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+                                    child: Container(
+                                      height: 200,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(12.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            Center(
+                                              child: Icon(
+                                                Icons.wallet,
+                                                color: Colors.greenAccent,
+                                                size: 20,
+                                              ),
+                                            ),
+                                            Center(
+                                                child: Text(
+                                              'Ream reward Withdrawl success',
+                                              style: TextStyle(fontWeight: FontWeight.bold),
+                                            )),
+                                            SizedBox(
+                                              height: 30,
+                                            ),
+                                            Center(
+                                              child: Text(
+                                                  'don\'t forget you can ask for your team reward once every month '),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                });
+                          },
+                          child: Text('Withdrawl')),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  width: 413,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(width: 1.15, color: const Color(0xff707070).withOpacity(0.28)),
                     ),
-
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          ElevatedButton(
-                              onPressed: () {
-                                if (active == false) {
-                                  setState(() {
-                                    showfirst = !showfirst;
-                                  });
-                                } else {
-                                  if (balance < 10) {
-                                    setState(() {
-                                      showsec = !showsec;
-                                    });
-                                  } else {
-                                    setState(() {
-                                      showthird = !showthird;
-                                    });
-                                  }
-                                }
-                              },
-                              child: Text('Withdrawl')),
-                          ElevatedButton(
-                              onPressed: () {
-                                FirebaseAuth.instance
-                                    .authStateChanges()
-                                    .listen((User? user) async {
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Center(
+                  child: Visibility(
+                      visible: showfirst,
+                      child: Text(
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'SF Rounded',
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          'Opps!! \nYour account not active yet from space man,\n try again latar')),
+                ),
+                Center(
+                  child: Visibility(
+                    visible: showfirst,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            showfirst = !showfirst;
+                          });
+                        },
+                        child: Text('Okay')),
+                  ),
+                  //second
+                ),
+                Center(
+                  child: Visibility(
+                      visible: showsec,
+                      child: Text(
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'SF Rounded',
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          'Opps!! \n Minimum withdrawal = 10 usdt,\n your balance: $balance\n try again later')),
+                ),
+                Center(
+                  child: Visibility(
+                    visible: showsec,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            showsec = !showsec;
+                          });
+                        },
+                        child: Text('Okay')),
+                  ),
+                ),
+                Center(
+                  child: Visibility(
+                    visible: showthird,
+                    child: SizedBox(
+                      height: 60,
+                      width: 340,
+                      child: TextField(
+                        controller: wallet,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.send),
+                              onPressed: () async {
+                                FirebaseAuth.instance.authStateChanges().listen((User? user) async {
                                   if (user != null) {
-                                    final Appuser =
-                                        FirebaseAuth.instance.currentUser;
+                                    final Appuser = FirebaseAuth.instance.currentUser;
                                     await FirebaseFirestore.instance
-                                        .collection('teamrewardbalance')
+                                        .collection('withdrawlRequast')
+                                        .doc(Appuser!.uid)
+                                        .set({'wallet': wallet.text.trim()});
+                                  }
+                                });
+                                FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+                                  if (user != null) {
+                                    final Appuser = FirebaseAuth.instance.currentUser;
+                                    await FirebaseFirestore.instance
+                                        .collection('users')
                                         .doc(Appuser!.uid)
                                         .update({'wallet': wallet.text.trim()});
                                   }
@@ -363,18 +489,14 @@ class _WithdrawlState extends State<Withdrawl> {
                                     context: context,
                                     builder: (context) {
                                       return Dialog(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20.0)),
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
                                         child: Container(
                                           height: 200,
                                           child: Padding(
                                             padding: EdgeInsets.all(12.0),
                                             child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.end,
                                               children: <Widget>[
                                                 Center(
                                                   child: Icon(
@@ -385,17 +507,15 @@ class _WithdrawlState extends State<Withdrawl> {
                                                 ),
                                                 Center(
                                                     child: Text(
-                                                  'Ream reward Withdrawl success',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                                  'Withdrawl success',
+                                                  style: TextStyle(fontWeight: FontWeight.bold),
                                                 )),
                                                 SizedBox(
                                                   height: 30,
                                                 ),
                                                 Center(
                                                   child: Text(
-                                                      'don\'t forget you can ask for your team reward once every month '),
+                                                      'your withdrawl request has been complet,\n Expect the withdrawl to reach your wallet within 24 hours'),
                                                 ),
                                               ],
                                             ),
@@ -403,190 +523,32 @@ class _WithdrawlState extends State<Withdrawl> {
                                         ),
                                       );
                                     });
-                              },
-                              child: Text('Withdrawl')),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      width: 413,
-                      height: 5,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          top: BorderSide(
-                              width: 1.15,
-                              color: const Color(0xff707070).withOpacity(0.28)),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Center(
-                      child: Visibility(
-                          visible: showfirst,
-                          child: Text(
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'SF Rounded',
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                              'Opps!! \nYour account not active yet from space man,\n try again latar')),
-                    ),
-                    Center(
-                      child: Visibility(
-                        visible: showfirst,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                showfirst = !showfirst;
-                              });
-                            },
-                            child: Text('Okay')),
-                      ),
-                      //second
-                    ),
-                    Center(
-                      child: Visibility(
-                          visible: showsec,
-                          child: Text(
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'SF Rounded',
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                              'Opps!! \n Minimum withdrawal = 10 usdt,\n your balance: $balance\n try again later')),
-                    ),
-                    Center(
-                      child: Visibility(
-                        visible: showsec,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                showsec = !showsec;
-                              });
-                            },
-                            child: Text('Okay')),
-                      ),
-                    ),
-                    Center(
-                      child: Visibility(
-                        visible: showthird,
-                        child: SizedBox(
-                          height: 60,
-                          width: 340,
-                          child: TextField(
-                            controller: wallet,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                                suffixIcon: IconButton(
-                                  icon: Icon(Icons.send),
-                                  onPressed: () async {
-                                    FirebaseAuth.instance
-                                        .authStateChanges()
-                                        .listen((User? user) async {
-                                      if (user != null) {
-                                        final Appuser =
-                                            FirebaseAuth.instance.currentUser;
-                                        await FirebaseFirestore.instance
-                                            .collection('withdrawlRequast')
-                                            .doc(Appuser!.uid)
-                                            .set(
-                                                {'wallet': wallet.text.trim()});
-                                      }
-                                    });
-                                    FirebaseAuth.instance
-                                        .authStateChanges()
-                                        .listen((User? user) async {
-                                      if (user != null) {
-                                        final Appuser =
-                                            FirebaseAuth.instance.currentUser;
-                                        await FirebaseFirestore.instance
-                                            .collection('users')
-                                            .doc(Appuser!.uid)
-                                            .update(
-                                                {'wallet': wallet.text.trim()});
-                                      }
-                                    });
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return Dialog(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        20.0)),
-                                            child: Container(
-                                              height: 200,
-                                              child: Padding(
-                                                padding: EdgeInsets.all(12.0),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: <Widget>[
-                                                    Center(
-                                                      child: Icon(
-                                                        Icons.wallet,
-                                                        color:
-                                                            Colors.greenAccent,
-                                                        size: 20,
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                        child: Text(
-                                                      'Withdrawl success',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    )),
-                                                    SizedBox(
-                                                      height: 30,
-                                                    ),
-                                                    Center(
-                                                      child: Text(
-                                                          'your withdrawl request has been complet,\n Expect the withdrawl to reach your wallet within 24 hours'),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        });
 
-                                    setState(() {
-                                      showthird = !showthird;
-                                    });
-                                  },
-                                ),
-                                labelText: 'wallet ',
-                                filled: true,
-                                fillColor: Color.fromARGB(229, 230, 232, 255),
-                                hintText: 'Enter your wallet ....',
-                                border: OutlineInputBorder()),
-                          ),
-                        ),
+                                setState(() {
+                                  showthird = !showthird;
+                                });
+                              },
+                            ),
+                            labelText: 'wallet ',
+                            filled: true,
+                            fillColor: Color.fromARGB(229, 230, 232, 255),
+                            hintText: 'Enter your wallet ....',
+                            border: OutlineInputBorder()),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      width: 413,
-                      height: 5,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          top: BorderSide(
-                              width: 1.15,
-                              color: const Color(0xff707070).withOpacity(0.28)),
-                        ),
-                      ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  width: 413,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(width: 1.15, color: const Color(0xff707070).withOpacity(0.28)),
                     ),
-                  ]),
+                  ),
+                ),
+              ]),
 
               floatingActionButton: Transform.scale(
                 scale: 1,
@@ -628,8 +590,7 @@ class _WithdrawlState extends State<Withdrawl> {
                   ),
                 ),
               ),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerDocked,
+              floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
               //
               bottomNavigationBar: Padding(
                 padding: const EdgeInsets.only(bottom: 18.0),
@@ -648,11 +609,7 @@ class _WithdrawlState extends State<Withdrawl> {
                               size: 30,
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const HomePageSub()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePageSub()));
                             }),
                         IconButton(
                             icon: Icon(
@@ -662,42 +619,13 @@ class _WithdrawlState extends State<Withdrawl> {
                             ),
                             onPressed: () {
                               vip = double.parse(data['vip'].toString());
-                              if (vip == 5) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const VipFiveTasks()));
-                              } else {
-                                if (vip == 4) {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const VipFourTasks()));
-                                } else {
-                                  if (vip == 3) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const VipThreeTasks()));
-                                  } else {
-                                    if (vip == 2) {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const VipTwoTasks()));
-                                    } else {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => VipOneTasks()));
-                                    }
-                                  }
-                                }
-                              }
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => VipOneTasks(
+                                      vip: vip,
+                                    ),
+                                  ));
                             }),
                         //
                         SizedBox(
@@ -711,11 +639,7 @@ class _WithdrawlState extends State<Withdrawl> {
                               size: 30,
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const QuetsionPage()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const QuetsionPage()));
                             }),
                         IconButton(
                             icon: Icon(
@@ -724,11 +648,7 @@ class _WithdrawlState extends State<Withdrawl> {
                               size: 30,
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SendInvite()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const SendInvite()));
                             }),
                       ],
                     ),

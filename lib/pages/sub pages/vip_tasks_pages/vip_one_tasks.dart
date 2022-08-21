@@ -19,59 +19,62 @@ import '../home_page_sub.dart';
 import '../quetsion_page.dart';
 
 class VipOneTasks extends StatefulWidget {
-var vip;
-VipOneTasks({this.vip});
+  var vip;
+
+  VipOneTasks({this.vip});
 
   @override
   _VipOneTasksState createState() => _VipOneTasksState();
 }
 
 class _VipOneTasksState extends State<VipOneTasks> {
-
   final Appuser = FirebaseAuth.instance.currentUser;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
 // image pciker code
   XFile? _image;
+
   Future getImage() async {
     var image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if(image != null){
+    if (image != null) {
       _image = image;
-    } else{
+    } else {
       _image = null;
     }
-    print("_image: "+ _image.toString());
     setState(() {});
   }
-
 
   @override
   Widget build(BuildContext context) {
     final Appuser = FirebaseAuth.instance.currentUser;
     return Scaffold(
-      bottomNavigationBar: MaterialButton(
-        minWidth: double.infinity,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ), onPressed: () {  },
-        color: Colors.lightGreenAccent,
-        child: Text(
-          'Completed: 3',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-          ),
-        ),
+      // bottomNavigationBar: MaterialButton(
+      //   minWidth: double.infinity,
+      //   shape: RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.circular(30),
+      //   ),
+      //   onPressed: () {},
+      //   color: Colors.lightGreenAccent,
+      //   child: Text(
+      //     'Completed: 3',
+      //     style: TextStyle(
+      //       color: Colors.white,
+      //       fontSize: 20,
+      //     ),
+      //   ),
+      // ),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
-      appBar: AppBar(backgroundColor: Colors.transparent,elevation: 0,),
       backgroundColor: const Color(0xff202227),
       body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance.collection("task ").snapshots(),
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             print("snapshot.data ${snapshot.data!.docs.length}");
-            if(snapshot.connectionState == ConnectionState.waiting){
+            if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
-            }else{
+            } else {
               var taskLength = snapshot.data!.docs.length;
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -79,52 +82,90 @@ class _VipOneTasksState extends State<VipOneTasks> {
                     itemCount: widget.vip == 0
                         ? 2
                         : widget.vip == 1
-                        ? 5
-                        : widget.vip == 2
-                        ? 10
-                        : widget.vip == 3
-                        ? 18
-                        : widget.vip == 4
-                        ? 32
-                        : widget.vip == 5
-                        ? taskLength
-                        : taskLength,
+                            ? 5
+                            : widget.vip == 2
+                                ? 8
+                                : widget.vip == 3
+                                    ? 18
+                                    : widget.vip == 4
+                                        ? 32
+                                        : widget.vip == 5
+                                            ? taskLength
+                                            : taskLength,
                     itemBuilder: (ctx, index) {
                       var item = snapshot.data!.docs[index];
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: ListTile(
-                          onTap: ()async{
+                          onTap: () async {
                             // url launccher
-                            if(await canLaunch(item.get("redirect_link"))){
+                            if (await canLaunch(item.get("redirect_link"))) {
                               await launch(item.get("redirect_link"));
-                            }else {
+                            } else {
                               throw 'Could not launch ${item.get("redirect_link")}';
                             }
                           },
                           trailing: GestureDetector(
-                            onTap: (){
-                              getImage();
+                            onTap: () async{
+                              await getImage();
+
+
+                              if(_image != null){
+                                var _currentBalance = await users.doc(Appuser!.uid).get().then((value) {
+                                  var balance = value.get('balance');
+                                  var newBalance;
+
+                                  // new balance
+                                  if(widget.vip == 0){
+                                    newBalance = balance + 0.2;
+                                  }else if(widget.vip == 1){
+                                    newBalance = balance + 1.1;
+                                  }else if(widget.vip == 2){
+                                    newBalance = balance + 2;
+                                  }else if(widget.vip == 3){
+                                    newBalance = balance + 2.8;
+                                  } else if(widget.vip == 4){
+                                    newBalance = balance + 3.5;
+                                  }
+                                  print("balance $newBalance");
+                                  // update balance
+                                  users.doc(Appuser!.uid).update({
+                                    'balance': newBalance,
+                                  });
+                                });
+
+                              }
+
                             },
                             child: Column(
                               children: [
-                                Icon(Icons.upload, color: Colors.green,),
-                                Text("Upload", style: TextStyle(color: Colors.green),),
+                                Icon(
+                                  Icons.upload,
+                                  color: Colors.green,
+                                ),
+                                Text(
+                                  "Upload",
+                                  style: TextStyle(color: Colors.green),
+                                ),
                               ],
                             ),
                           ),
-                          leading:
-                          Image.network(item.get('logo'),height: 40,width: 40,),
-                          title: Text(item.get('title'),
+                          leading: Image.network(
+                            item.get('logo'),
+                            height: 40,
+                            width: 40,
+                          ),
+                          title: Text(
+                            item.get('title'),
                             style: TextStyle(color: Colors.white, fontSize: 14),
                           ),
-                          subtitle: Text(item.get('description'),
-                              style: TextStyle(color: Colors.white, fontSize: 12)),
+                          subtitle: Text(item.get('description'), style: TextStyle(color: Colors.white, fontSize: 12)),
                         ),
                       );
                     }),
               );
             }
-          }),);
+          }),
+    );
   }
 }
