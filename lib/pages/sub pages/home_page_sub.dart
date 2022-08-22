@@ -17,6 +17,8 @@ import 'package:like_button/like_button.dart';
 import '../../widget/custom_nav_bar.dart';
 import 'package:flutter/services.dart';
 
+import '../history_page.dart';
+
 class HomePageSub extends StatefulWidget {
   const HomePageSub({Key? key}) : super(key: key);
 
@@ -343,6 +345,9 @@ class _HomePageSubState extends State<HomePageSub> {
                           //third button
 
                           GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => HistoryScreen()));
+                            },
                             child: Container(
                               width: 90,
                               height: 35,

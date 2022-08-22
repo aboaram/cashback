@@ -54,6 +54,7 @@ dependencies:
   slide_to_act: ^2.0.1
   image_picker:
   flutter_launcher_icons: ^0.10.0
+  intl:
 
 dev_dependencies:
   flutter_test:
