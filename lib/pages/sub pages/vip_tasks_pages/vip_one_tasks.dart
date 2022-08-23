@@ -47,18 +47,17 @@ class _VipOneTasksState extends State<VipOneTasks> {
 
   clearPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String savedDate = await prefs.getString('dateTime').toString();
-    print("savedDate: ${savedDate}");
-    if (DateTime.parse(savedDate).isBefore(DateTime.now())) {
-      await prefs.clear();
-    }
+    // String savedDate = await prefs.getString('dateTime').toString();
+    // print("savedDate: ${savedDate}");
+    // if (DateTime.parse(savedDate).isBefore(DateTime.now())) {
+    //   await prefs.clear();
+    // }
     await prefs.clear();
   }
 
   @override
   initState() {
     super.initState();
-    // setDateTime();
     getSavedTaskId();
   }
 

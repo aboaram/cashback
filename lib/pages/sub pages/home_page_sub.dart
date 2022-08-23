@@ -27,14 +27,13 @@ class HomePageSub extends StatefulWidget {
 }
 
 class _HomePageSubState extends State<HomePageSub> {
-  // user from auth
 
   @override
   Widget build(BuildContext context) {
     final Appuser = FirebaseAuth.instance.currentUser;
     CollectionReference users = FirebaseFirestore.instance.collection('users');
-    return FutureBuilder<DocumentSnapshot>(
-        future: users.doc(Appuser!.uid).get(),
+    return StreamBuilder<DocumentSnapshot>(
+        stream: users.doc(Appuser!.uid).get().asStream(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasData) {
@@ -88,7 +87,7 @@ class _HomePageSubState extends State<HomePageSub> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    allbalance.toString(),
+                                    data['balance'].toString(),
                                     // userData!.name.toString(),
                                     style: TextStyle(
                                         fontSize: 54,
