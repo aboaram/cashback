@@ -58,7 +58,7 @@ class _VipOneTasksState extends State<VipOneTasks> {
   @override
   initState() {
     super.initState();
-    setDateTime();
+    // setDateTime();
     getSavedTaskId();
   }
 
@@ -136,15 +136,15 @@ class _VipOneTasksState extends State<VipOneTasks> {
 
                                         // new balance
                                         if (widget.vip == 0) {
-                                          newBalance = balance + 0.2.toStringAsFixed(2);
+                                          newBalance = balance + 0.2;
                                         } else if (widget.vip == 1) {
-                                          newBalance = balance + 1.1.toStringAsFixed(2);
+                                          newBalance = balance + 1.1;
                                         } else if (widget.vip == 2) {
-                                          newBalance = balance + 2.toStringAsFixed(2);
+                                          newBalance = balance + 2;
                                         } else if (widget.vip == 3) {
-                                          newBalance = balance + 2.8.toStringAsFixed(2);
+                                          newBalance = balance + 2.8;
                                         } else if (widget.vip == 4) {
-                                          newBalance = balance + 3.5.toStringAsFixed(2);
+                                          newBalance = balance + 3.5;
                                          }
                                         print("balance $newBalance");
                                         // update balance
@@ -153,7 +153,7 @@ class _VipOneTasksState extends State<VipOneTasks> {
                                         });
                                         // saved data in history
                                         FirebaseFirestore.instance.collection('history').add({
-                                          'date': Timestamp.now(),
+                                          'date': DateTime.now(),
                                           'user_id': Appuser.uid,
                                           'amount': widget.vip == 0
                                               ? 0.2
