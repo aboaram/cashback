@@ -69,49 +69,20 @@ class _VipOneTasksState extends State<VipOneTasks> {
   Widget build(BuildContext context) {
     final Appuser = FirebaseAuth.instance.currentUser;
     return Scaffold(
-      // bottomNavigationBar: MaterialButton(
-      //   minWidth: double.infinity,
-      //   shape: RoundedRectangleBorder(
-      //     borderRadius: BorderRadius.circular(30),
-      //   ),
-      //   onPressed: () {},
-      //   color: Colors.lightGreenAccent,
-      //   child: Text(
-      //     'Completed: 3',
-      //     style: TextStyle(
-      //       color: Colors.white,
-      //       fontSize: 20,
-      //     ),
-      //   ),
-      // ),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
           'Daily Tasks!',
-          style: TextStyle(
-            fontFamily: 'SF Rounded',
-            fontSize: 24,
-            color: Colors.white,
-          ),
         ),
         actions: [
-          ElevatedButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HistoryScreen()));
-              },
-              style: ElevatedButton.styleFrom(
-                elevation: 5.0,
-                textStyle: const TextStyle(
-                  fontFamily: 'SF Rounded',
-                  fontSize: 20,
-                  color: Colors.white,
-                ),
-              ),
-              child: Text(
-                'history',
-              ))
+          IconButton(
+            onPressed: (){
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => HistoryScreen()));
+            },
+            icon: Icon(Icons.history),
+          ),
         ],
       ),
       backgroundColor: const Color(0xff202227),

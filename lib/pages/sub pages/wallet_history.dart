@@ -37,6 +37,7 @@ class _WalletHistoryState extends State<WalletHistory> {
             return Scaffold(
               appBar: AppBar(
                 backgroundColor: Colors.transparent,
+                elevation: 0,
                 title: Text(
                   'History',
                   style: TextStyle(
@@ -199,7 +200,7 @@ class _WalletHistoryState extends State<WalletHistory> {
                             color: Colors.white),
                       ),
                       Text(
-                        data['teambalance'],
+                        data['teambalance'].toString(),
                         style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontWeight: FontWeight.bold,
@@ -207,7 +208,7 @@ class _WalletHistoryState extends State<WalletHistory> {
                             color: Colors.white),
                       ),
                       Text(
-                        data['rewardbalance'],
+                        data['rewardbalance'].toString(),
                         style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontWeight: FontWeight.bold,
@@ -260,7 +261,7 @@ class _WalletHistoryState extends State<WalletHistory> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        data['weeklyBalance'],
+                        data['weeklyBalance'].toString(),
                         style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontWeight: FontWeight.bold,
@@ -268,7 +269,7 @@ class _WalletHistoryState extends State<WalletHistory> {
                             color: Colors.white),
                       ),
                       Text(
-                        data['mounthlyBalance'],
+                        data['mounthlyBalance'].toString(),
                         style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontWeight: FontWeight.bold,
@@ -276,7 +277,7 @@ class _WalletHistoryState extends State<WalletHistory> {
                             color: Colors.white),
                       ),
                       Text(
-                        data['lastmonthhbalance'],
+                        data['lastmonthhbalance'].toString(),
                         style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontWeight: FontWeight.bold,
@@ -328,7 +329,7 @@ class _WalletHistoryState extends State<WalletHistory> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        data['team'],
+                        data['team'].toString(),
                         style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontWeight: FontWeight.bold,
@@ -336,7 +337,7 @@ class _WalletHistoryState extends State<WalletHistory> {
                             color: Colors.white),
                       ),
                       Text(
-                        data['vipteam'],
+                        data['vipteam'].toString(),
                         style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontWeight: FontWeight.bold,
@@ -344,7 +345,7 @@ class _WalletHistoryState extends State<WalletHistory> {
                             color: Colors.white),
                       ),
                       Text(
-                        data['normalteam'],
+                        data['normalteam'].toString(),
                         style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontWeight: FontWeight.bold,
@@ -357,20 +358,6 @@ class _WalletHistoryState extends State<WalletHistory> {
                 SizedBox(
                   height: 20,
                 ),
-
-                Center(
-                  child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'soon',
-                        style: TextStyle(
-                          fontFamily: 'SF Rounded',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.black.withOpacity(0.72),
-                        ),
-                      )),
-                )
               ]),
             );
           } else {
