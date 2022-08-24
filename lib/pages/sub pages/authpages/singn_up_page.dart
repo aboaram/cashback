@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:cashback/models/AppUser.dart';
+import 'package:cashback/pages/sub%20pages/send_invite.dart';
 import 'package:cashback/service/firebase_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,7 +20,7 @@ class _SignUpPageState extends State<SignUp> {
   final _passwordController = TextEditingController();
   final _confirmpasswordController = TextEditingController();
   final _NameController = TextEditingController();
-
+  final _giftController = TextEditingController();
   @override
   //todo
   void dispose() {
@@ -40,14 +41,15 @@ class _SignUpPageState extends State<SignUp> {
         );
         final UserCredential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(
-                email: _emailController.text.trim(),
-                password: _passwordController.text.trim());
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim());
         final user = UserCredential.user;
         var rng = new Random();
         var idcode = rng.nextInt(900000) + 100000;
 
         var sog = new Random();
         var invcode = sog.nextInt(900000) + 100000;
+
         await FirebaseAuth.instance
             .authStateChanges()
             .listen((User? user) async {
@@ -56,7 +58,7 @@ class _SignUpPageState extends State<SignUp> {
             await FirebaseFirestore.instance
                 .collection('invitecode')
                 .doc(Appuser!.uid)
-                .update({'invcode': invcode, 'id': idcode});
+                .update({'refcode': refcode, 'id': idcode});
             await FirebaseFirestore.instance
                 .collection('users')
                 .doc(Appuser.uid)
@@ -71,12 +73,12 @@ class _SignUpPageState extends State<SignUp> {
           name: _NameController.text.trim(),
           email: _emailController.text.trim(),
           balance: 0.0,
-          sid: 0,
+          sid: invcode,
           vip: 0,
           id: idcode,
           active: false,
-          invitecode: invcode,
-          refcode: 0,
+          invitecode: 'https://cashbackjoo.page.link/Ref?refcode=${idcode}',
+          refcode: _giftController.text.trim(),
           isactivebounas: true,
           rewardbalance: 0.0,
           wallet: '0',
@@ -84,6 +86,18 @@ class _SignUpPageState extends State<SignUp> {
           phone: 0,
           teambalance: 0.0,
           isthiswalletin: false,
+          team: '0',
+          weeklyBalance: 0,
+          mounthlyBalance: 0,
+          lastmonthhbalance: 0,
+          vipteam: 0,
+          normalteam: 0,
+          vipreq: '',
+          withdrawlreq: '',
+          depositreq: '',
+          notficone: '',
+          notfictwo: '',
+          notficthree: '',
         ));
       }
       ;
@@ -347,6 +361,50 @@ class _SignUpPageState extends State<SignUp> {
                           ),
                         )),
                   ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 50.0, bottom: 8),
+                      child: Text(
+                        'Vp code from ?',
+                        style: TextStyle(
+                          fontFamily: 'Product Sans',
+                          fontSize: 15,
+                          color: Color(0xff8f9db5),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
+                    child: TextField(
+                        controller: _giftController,
+                        style: TextStyle(
+                            fontSize: 19,
+                            color: Color(0xff0962ff),
+                            fontWeight: FontWeight.bold),
+                        decoration: InputDecoration(
+                          hintText: "vp code ..",
+                          hintStyle: TextStyle(
+                              fontSize: 18,
+                              color: Colors.grey[350],
+                              fontWeight: FontWeight.w600),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 27, horizontal: 25),
+                          focusColor: Color(0xff0962ff),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide(color: Color(0xff0962ff)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        )),
+                  ),
                   Text(
                     "Creating an account means you're okay with\nour Terms of Service and Privacy Policy",
                     style: TextStyle(
@@ -439,7 +497,7 @@ class _SignUpPageState extends State<SignUp> {
 
 class OuterClippedPart extends CustomClipper<Path> {
   @override
-  Path getClip(Size size) {
+  Path getClip(size) {
     Path path = Path();
     //
     path.moveTo(size.width / 2, 0);
@@ -459,7 +517,7 @@ class OuterClippedPart extends CustomClipper<Path> {
 
 class InnerClippedPart extends CustomClipper<Path> {
   @override
-  Path getClip(Size size) {
+  Path getClip(size) {
     Path path = Path();
     //
     path.moveTo(size.width * 0.7, 0);

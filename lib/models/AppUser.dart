@@ -14,8 +14,8 @@ class UserModel {
   final int vip;
   final int id;
   final bool active;
-  final int invitecode;
-  final int refcode;
+  final String invitecode;
+  final String refcode;
   final bool isactivebounas;
   final double rewardbalance;
   final String wallet;
@@ -23,66 +23,114 @@ class UserModel {
   final int phone;
   final double teambalance;
   final bool isthiswalletin;
-
+  final String team;
+  final double mounthlyBalance;
+  final double weeklyBalance;
+  final double lastmonthhbalance;
+  final double vipteam;
+  final double normalteam;
+  final String depositreq;
+  final String withdrawlreq;
+  final String vipreq;
+  final String notficone;
+  final String notfictwo;
+  final String notficthree;
   UserModel(
       {required this.uid,
-      required this.name,
-      required this.email,
-      required this.balance,
-      required this.sid,
-      required this.vip,
-      required this.id,
-      required this.active,
-      required this.invitecode,
-      required this.refcode,
-      required this.isactivebounas,
-      required this.rewardbalance,
-      required this.wallet,
-      required this.depositwallet,
-      required this.phone,
-      required this.teambalance,
-      required this.isthiswalletin});
+        required this.name,
+        required this.email,
+        required this.balance,
+        required this.sid,
+        required this.vip,
+        required this.id,
+        required this.active,
+        required this.invitecode,
+        required this.refcode,
+        required this.isactivebounas,
+        required this.rewardbalance,
+        required this.wallet,
+        required this.depositwallet,
+        required this.phone,
+        required this.teambalance,
+        required this.isthiswalletin,
+        required this.team,
+        required this.mounthlyBalance,
+        required this.weeklyBalance,
+        required this.lastmonthhbalance,
+        required this.vipteam,
+        required this.normalteam,
+        required this.depositreq,
+        required this.vipreq,
+        required this.withdrawlreq,
+        required this.notficone,
+        required this.notfictwo,
+        required this.notficthree});
 
   factory UserModel.fromSnapshot(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
     return UserModel(
-        uid: snapshot['uid'],
-        name: snapshot['name'],
-        email: snapshot['email'],
-        balance: snapshot['balance'],
-        sid: snapshot['sid'],
-        vip: snapshot['vip'],
-        id: snapshot['id'],
-        active: snapshot['active'],
-        invitecode: snapshot['invitecode'],
-        refcode: snapshot['refcode'],
-        isactivebounas: snapshot['isactivebounas'],
-        rewardbalance: snapshot['rewardbalance'],
-        wallet: snapshot['wallet'],
-        depositwallet: snapshot['depositwallet'],
-        phone: snapshot['phone'],
-        teambalance: snapshot['teambalance'],
-        isthiswalletin: snapshot['isthiswalletin']);
+      uid: snapshot['uid'],
+      name: snapshot['name'],
+      email: snapshot['email'],
+      balance: snapshot['balance'],
+      sid: snapshot['sid'],
+      vip: snapshot['vip'],
+      id: snapshot['id'],
+      active: snapshot['active'],
+      invitecode: snapshot['invitecode'],
+      refcode: snapshot['refcode'],
+      isactivebounas: snapshot['isactivebounas'],
+      rewardbalance: snapshot['rewardbalance'],
+      wallet: snapshot['wallet'],
+      depositwallet: snapshot['depositwallet'],
+      phone: snapshot['phone'],
+      teambalance: snapshot['teambalance'],
+      isthiswalletin: snapshot['isthiswalletin'],
+      team: snapshot['team'],
+      mounthlyBalance: snapshot['mounthlyBalance'],
+      weeklyBalance: snapshot['weeklyBalance'],
+      lastmonthhbalance: snapshot['lastmonthhbalance'],
+      vipteam: snapshot['vipteam'],
+      normalteam: snapshot['normalteam'],
+      depositreq: snapshot['depositreq'],
+      vipreq: snapshot['vipreq'],
+      withdrawlreq: snapshot['withdrawlreq'],
+      notficone: snapshot['notficone'],
+      notfictwo: snapshot['notfictwo'],
+      notficthree: snapshot['notficthree'],
+    );
   }
 
   Map<String, dynamic> toJson() => {
-        'name': name,
-        'email': email,
-        'balance': balance,
-        'sid': sid,
-        'vip': vip,
-        'id': id,
-        'active': active,
-        'invitecode': invitecode,
-        'refcode': refcode,
-        'isactivebounas': isactivebounas,
-        'rewardbalance': rewardbalance,
-        'wallet': wallet,
-        'depositwallet': depositwallet,
-        'phone': phone,
-        'teambalance': teambalance,
-        'isthiswalletin': isthiswalletin
-      };
+    'name': name,
+    'email': email,
+    'balance': balance,
+    'sid': sid,
+    'vip': vip,
+    'id': id,
+    'active': active,
+    'invitecode': invitecode,
+    'refcode': refcode,
+    'isactivebounas': isactivebounas,
+    'rewardbalance': rewardbalance,
+    'wallet': wallet,
+    'depositwallet': depositwallet,
+    'phone': phone,
+    'teambalance': teambalance,
+    'isthiswalletin': isthiswalletin,
+    'team': team,
+    'mounthlyBalance': mounthlyBalance,
+    'weeklyBalance': weeklyBalance,
+    'lastmonthhbalance': lastmonthhbalance,
+    'vipteam': vipteam,
+    'normalteam': normalteam,
+    'depositreq': depositreq,
+    'vipreq': vipreq,
+    'withdrawlreq': withdrawlreq,
+    'notficone': notficone,
+    'notfictwo': notfictwo,
+    'notficthree': notficthree,
+  };
 }
 
 class invitemodel {
@@ -106,8 +154,8 @@ class UserData {
   final String uid;
   final int id;
   final String active;
-  final int invitecode;
-  final int refcode;
+  final String invitecode;
+  final String refcode;
   final bool isactivebounas;
   final double rewardbalance;
   final String wallet;
@@ -115,6 +163,18 @@ class UserData {
   final int phone;
   final double teambalance;
   final bool isthiswalletin;
+  final String team;
+  final double mounthlyBalance;
+  final double weeklyBalance;
+  final double lastmonthhbalance;
+  final double vipteam;
+  final double normalteam;
+  final String depositreq;
+  final String withdrawlreq;
+  final String vipreq;
+  final String notficone;
+  final String notfictwo;
+  final String notficthree;
 
   UserData({
     required this.name,
@@ -134,6 +194,18 @@ class UserData {
     required this.phone,
     required this.teambalance,
     required this.isthiswalletin,
+    required this.team,
+    required this.lastmonthhbalance,
+    required this.mounthlyBalance,
+    required this.weeklyBalance,
+    required this.vipteam,
+    required this.normalteam,
+    required this.depositreq,
+    required this.vipreq,
+    required this.withdrawlreq,
+    required this.notficone,
+    required this.notfictwo,
+    required this.notficthree,
   });
 }
 

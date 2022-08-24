@@ -83,6 +83,21 @@ class _VipOneTasksState extends State<VipOneTasks> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        title: Text(
+          'Daily Tasks',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+
+            },
+            icon: Icon(Icons.history_toggle_off_outlined),
+          ),
+        ],
       ),
       backgroundColor: const Color(0xff202227),
       body: StreamBuilder<QuerySnapshot>(
