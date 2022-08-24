@@ -59,7 +59,7 @@ class _ConnectPhoneState extends State<ConnectPhone> {
             visible: secoundtalk,
             child: Center(
                 child: Text(
-              'okay \n space man need  your phone numer to active your account\n okay ?',
+              'okay \n space man need  your phone nubmer to active your account\n okay ?',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color.fromARGB(229, 230, 232, 255),

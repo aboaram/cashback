@@ -9,13 +9,16 @@ import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_one_tasks.dart';
 import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_three_tasks.dart';
 import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_two_tasks.dart';
 import 'package:cashback/pages/sub%20pages/vips_page.dart';
+import 'package:cashback/pages/sub%20pages/wallet_history.dart';
 import 'package:cashback/pages/sub%20pages/withdrawl_r.dart/withdrawl_root.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:draggable_fab/draggable_fab.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:like_button/like_button.dart';
-import '../../widget/custom_nav_bar.dart';
 import 'package:flutter/services.dart';
+import 'package:like_button/like_button.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../widget/custom_nav_bar.dart';
 
 class HomePageSub extends StatefulWidget {
   const HomePageSub({Key? key}) : super(key: key);
@@ -36,11 +39,13 @@ class _HomePageSubState extends State<HomePageSub> {
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasData) {
-            Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+            Map<String, dynamic> data =
+                snapshot.data!.data() as Map<String, dynamic>;
             // double
             double balance = double.parse(data['balance'].toString());
             double teambalance = double.parse(data['teambalance'].toString());
-            double rewardbalance = double.parse(data['rewardbalance'].toString());
+            double rewardbalance =
+                double.parse(data['rewardbalance'].toString());
             double allbalance = balance + teambalance + rewardbalance;
             double vip = double.parse(data['vip'].toString());
 
@@ -178,17 +183,7 @@ class _HomePageSubState extends State<HomePageSub> {
                                   // id copied
 
                                   GestureDetector(
-                                    onDoubleTap: () {
-                                      Clipboard.setData(ClipboardData(
-                                              text: data['id'].toString()))
-                                          .then((_) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                          content: Text(
-                                              'your Id number copied to clipboard'),
-                                        ));
-                                      });
-                                    },
+                                    onDoubleTap: () {},
                                     child: Text(
                                       'ID :  ${data['id']} ',
                                       style: TextStyle(
@@ -343,6 +338,12 @@ class _HomePageSubState extends State<HomePageSub> {
                           //third button
 
                           GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WalletHistory()));
+                            },
                             child: Container(
                               width: 90,
                               height: 35,
@@ -379,130 +380,39 @@ class _HomePageSubState extends State<HomePageSub> {
                           )
                         ]),
                   ),
-                  Center(
-                    child: Text(
-                      textAlign: TextAlign.center,
-                      'be sure to invita as mush as you can frinds to your team\nand you will get rewarded for ther works',
-                      style: TextStyle(
-                        fontFamily: 'SF Pro Display',
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 0.80,
-                        color: Colors.white.withOpacity(0.30),
-                      ),
+
+                  SizedBox(height: 35),
+
+                  Text(
+                    data['notficone'],
+                    style: TextStyle(
+                      fontFamily: 'SF Rounded',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                      color: Colors.white.withOpacity(0.92),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    actions: [LikeButton()],
-                                    backgroundColor: const Color(0xff202227),
-                                    elevation: 24.5,
-                                    title: Center(
-                                      child: Text(
-                                        'Sorry !!',
-                                        style: TextStyle(
-                                          fontFamily: 'SF Rounded',
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                    content: Center(
-                                      child: Text(
-                                        ' Team sheet not available ,You need to wait for next update to get the cheat inside the app.\n if you want to get the sheet , contact with Support in telegram group',
-                                        style: TextStyle(
-                                          fontFamily: 'SF Rounded',
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                });
-                          },
-                          child: Text(
-                            'Team',
-                            style: TextStyle(
-                              fontFamily: 'SF Rounded',
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          'Reward',
-                          style: TextStyle(
-                            fontFamily: 'SF Rounded',
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        )
-                      ],
+
+                  DraggableFab(
+                    child: FloatingActionButton(
+                      onPressed: () async {
+                        const url = "https://t.me/+-MUc693m9xAwODdh";
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch ${url}';
+                        }
+                      },
+                      child: Icon(Icons.telegram, color: Colors.black),
+                      backgroundColor: Colors.white,
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Row(children: [
-                        Icon(
-                          Icons.person_add,
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          data['sid'].toString(),
-                          style: TextStyle(
-                            fontFamily: 'SF Rounded',
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        )
-                      ]),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.upcoming,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          Text(
-                            teambalance.toString(),
-                            style: TextStyle(
-                              fontFamily: 'SF Rounded',
-                              fontSize: 26,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  )
                 ],
               ),
+
               //////// wns
               // Borrom bar
+
               floatingActionButton: Transform.scale(
                 scale: 1,
                 child: Transform.translate(
@@ -543,6 +453,7 @@ class _HomePageSubState extends State<HomePageSub> {
                   ),
                 ),
               ),
+
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerDocked,
               //
@@ -579,7 +490,8 @@ class _HomePageSubState extends State<HomePageSub> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => VipOneTasks(vip: vip)));
+                                      builder: (context) =>
+                                          VipOneTasks(vip: vip)));
                             }),
                         //
                         SizedBox(

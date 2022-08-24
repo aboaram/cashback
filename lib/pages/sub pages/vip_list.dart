@@ -71,7 +71,10 @@ class _VipListState extends State<VipList> {
                                                 await FirebaseFirestore.instance
                                                     .collection('users')
                                                     .doc(Appuser!.uid)
-                                                    .update({'vip': 1});
+                                                    .update({
+                                                  'vip': 1,
+                                                  'vipreq': 'done vip1'
+                                                });
                                               }
                                             });
                                             FirebaseAuth.instance
@@ -268,7 +271,10 @@ class _VipListState extends State<VipList> {
                                                 await FirebaseFirestore.instance
                                                     .collection('users')
                                                     .doc(Appuser!.uid)
-                                                    .update({'vip': 2});
+                                                    .update({
+                                                  'vip': 2,
+                                                  'vipreq': 'done vip2'
+                                                });
                                               }
                                             });
                                             FirebaseAuth.instance
@@ -469,7 +475,10 @@ class _VipListState extends State<VipList> {
                                                 await FirebaseFirestore.instance
                                                     .collection('users')
                                                     .doc(Appuser!.uid)
-                                                    .update({'vip': 3});
+                                                    .update({
+                                                  'vip': 3,
+                                                  'vipreq': 'done vip3'
+                                                });
                                               }
                                             });
                                             FirebaseAuth.instance
@@ -509,7 +518,7 @@ class _VipListState extends State<VipList> {
                                                                     'recharge account'))
                                                           ],
                                                           title: Text(
-                                                              'you dont have the price of vip 1'),
+                                                              'you dont have the price of vip 3'),
                                                           content: Text(
                                                               'your balance now ${data['balance']} \n recharge your account'),
                                                         ));
@@ -670,7 +679,11 @@ class _VipListState extends State<VipList> {
                                                 await FirebaseFirestore.instance
                                                     .collection('users')
                                                     .doc(Appuser!.uid)
-                                                    .update({'vip': 4});
+                                                    .update({
+                                                  'vip': 4,
+                                                  'vipreq':
+                                                      'done vip4'.toString()
+                                                });
                                               }
                                             });
                                             FirebaseAuth.instance
@@ -851,132 +864,203 @@ class _VipListState extends State<VipList> {
                     SizedBox(
                       height: 20,
                     ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      width: 413,
-                      height: 160,
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          begin: Alignment(0.01, 0.13),
-                          end: Alignment(0.97, 0.84),
-                          colors: [
-                            Color.fromARGB(255, 231, 255, 16),
-                            Color.fromARGB(255, 247, 196, 196)
-                          ],
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: Text('you are about to buy vip 5'),
+                                  content: Text('are you sure?'),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          if (balance >= 5000) {
+                                            FirebaseAuth.instance
+                                                .authStateChanges()
+                                                .listen((User? user) async {
+                                              if (user != null) {
+                                                final Appuser = FirebaseAuth
+                                                    .instance.currentUser;
+                                                await FirebaseFirestore.instance
+                                                    .collection('users')
+                                                    .doc(Appuser!.uid)
+                                                    .update({'vip': 1});
+                                              }
+                                            });
+                                            FirebaseAuth.instance
+                                                .authStateChanges()
+                                                .listen((User? user) async {
+                                              if (user != null) {
+                                                final Appuser = FirebaseAuth
+                                                    .instance.currentUser;
+                                                await FirebaseFirestore.instance
+                                                    .collection('users')
+                                                    .doc(Appuser!.uid)
+                                                    .update({
+                                                  'balance': balance - 5000
+                                                });
+                                              }
+                                            });
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const HomePageSub()));
+                                          } else {
+                                            showDialog(
+                                                context: context,
+                                                builder:
+                                                    (context) => AlertDialog(
+                                                          actions: [
+                                                            TextButton(
+                                                                onPressed: () {
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (context) =>
+                                                                              const DepositePage()));
+                                                                },
+                                                                child: Text(
+                                                                    'recharge account'))
+                                                          ],
+                                                          title: Text(
+                                                              'you dont have the price of vip 5'),
+                                                          content: Text(
+                                                              'your balance now ${data['balance']} \n recharge your account'),
+                                                        ));
+                                          }
+                                        },
+                                        child: Text('sure'))
+                                  ],
+                                ));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        width: 413,
+                        height: 160,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            begin: Alignment(0.01, 0.13),
+                            end: Alignment(0.97, 0.84),
+                            colors: [
+                              Color.fromARGB(255, 231, 255, 16),
+                              Color.fromARGB(255, 247, 196, 196)
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(children: [
-                        Row(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Vip 5: ',
+                        child: Column(children: [
+                          Row(children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Vip 5: ',
+                                style: TextStyle(
+                                  fontFamily: 'SF Rounded',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 32,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              '5000usdt',
                               style: TextStyle(
                                 fontFamily: 'SF Rounded',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 32,
+                                fontSize: 26,
                                 color: Colors.white,
                               ),
+                            )
+                          ]),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Daily tasks',
+                                  style: TextStyle(
+                                    fontFamily: 'SF Rounded',
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  'task price',
+                                  style: TextStyle(
+                                    fontFamily: 'SF Rounded',
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  'monthly return',
+                                  style: TextStyle(
+                                    fontFamily: 'SF Rounded',
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                          Text(
-                            '5000usdt',
-                            style: TextStyle(
-                              fontFamily: 'SF Rounded',
-                              fontSize: 26,
-                              color: Colors.white,
-                            ),
-                          )
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
+                                child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 30),
+                                  child: Center(
+                                    child: Text(
+                                      '60',
+                                      style: TextStyle(
+                                        fontFamily: 'SF Rounded',
+                                        fontSize: 20,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  child: Center(
+                                    child: Text(
+                                      '4.17',
+                                      style: TextStyle(
+                                        fontFamily: 'SF Rounded',
+                                        fontSize: 20,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 40),
+                                  child: Center(
+                                    child: Text(
+                                      '7500',
+                                      style: TextStyle(
+                                        fontFamily: 'SF Rounded',
+                                        fontSize: 20,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Center()
                         ]),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Daily tasks',
-                                style: TextStyle(
-                                  fontFamily: 'SF Rounded',
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Text(
-                                'task price',
-                                style: TextStyle(
-                                  fontFamily: 'SF Rounded',
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Text(
-                                'monthly return',
-                                style: TextStyle(
-                                  fontFamily: 'SF Rounded',
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                              child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 30),
-                                child: Center(
-                                  child: Text(
-                                    'soon',
-                                    style: TextStyle(
-                                      fontFamily: 'SF Rounded',
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 15),
-                                child: Center(
-                                  child: Text(
-                                    'soon',
-                                    style: TextStyle(
-                                      fontFamily: 'SF Rounded',
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 40),
-                                child: Center(
-                                  child: Text(
-                                    '7500',
-                                    style: TextStyle(
-                                      fontFamily: 'SF Rounded',
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Center()
-                      ]),
+                      ),
                     ),
                   ],
                 ),

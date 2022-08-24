@@ -28,7 +28,19 @@ class FirestoreHelper {
             depositwallet: user.depositwallet,
             phone: user.phone,
             teambalance: user.teambalance,
-            isthiswalletin: user.isthiswalletin)
+            isthiswalletin: user.isthiswalletin,
+            team: user.team,
+            mounthlyBalance: user.mounthlyBalance,
+            weeklyBalance: user.weeklyBalance,
+            lastmonthhbalance: user.lastmonthhbalance,
+            vipteam: user.vipteam,
+            normalteam: user.normalteam,
+            depositreq: user.depositreq,
+            withdrawlreq: user.withdrawlreq,
+            vipreq: user.vipreq,
+            notficone: user.notficone,
+            notfictwo: user.notfictwo,
+            notficthree: user.notficthree)
         .toJson();
     try {
       await docRef.set(newUser);
@@ -54,23 +66,36 @@ class FirestoreHelper {
 
   UserData _userData(DocumentSnapshot snapshot) {
     return UserData(
-        uid: uid,
-        name: snapshot['name'],
-        email: snapshot['email'],
-        balance: snapshot['balance'],
-        sid: snapshot['sid'],
-        vip: snapshot['vip'],
-        id: snapshot['id'],
-        active: snapshot['active'],
-        invitecode: snapshot['invitecode'],
-        refcode: snapshot['refcode'],
-        isactivebounas: snapshot['isactivebounas'],
-        rewardbalance: snapshot['rewardbalance'],
-        wallet: snapshot['wallet'],
-        depositwallet: snapshot['depositwallet'],
-        phone: snapshot['phone'],
-        teambalance: snapshot['teambalance'],
-        isthiswalletin: snapshot['isthiswalletin']);
+      uid: uid,
+      name: snapshot['name'],
+      email: snapshot['email'],
+      balance: snapshot['balance'],
+      sid: snapshot['sid'],
+      vip: snapshot['vip'],
+      id: snapshot['id'],
+      active: snapshot['active'],
+      invitecode: snapshot['invitecode'],
+      refcode: snapshot['refcode'],
+      isactivebounas: snapshot['isactivebounas'],
+      rewardbalance: snapshot['rewardbalance'],
+      wallet: snapshot['wallet'],
+      depositwallet: snapshot['depositwallet'],
+      phone: snapshot['phone'],
+      teambalance: snapshot['teambalance'],
+      isthiswalletin: snapshot['isthiswalletin'],
+      team: snapshot['team'],
+      mounthlyBalance: snapshot['mounthlyBalance'],
+      weeklyBalance: snapshot['weeklyBalance'],
+      lastmonthhbalance: snapshot['lastmonthhbalance'],
+      vipteam: snapshot['vipteam'],
+      normalteam: snapshot['normalteam'],
+      vipreq: snapshot['vipreq'],
+      withdrawlreq: snapshot['withdrawlreq'],
+      depositreq: snapshot['depositreq'],
+      notficone: snapshot['notficone'],
+      notfictwo: snapshot['notfictwo'],
+      notficthree: snapshot['notficthree'],
+    );
   }
 
   final CollectionReference userCollection =

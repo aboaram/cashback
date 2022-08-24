@@ -1,23 +1,12 @@
 import 'dart:io';
-
-import 'package:cashback/pages/sub%20pages/send_invite.dart';
-import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_five_tasks.dart';
-import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_four_tasks.dart';
-import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_three_tasks.dart';
-import 'package:cashback/pages/sub%20pages/vip_tasks_pages/vip_two_tasks.dart';
-import 'package:cashback/utility/task_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../widget/custom_nav_bar.dart';
-import '../../loader_page.dart';
-import '../home_page_sub.dart';
-import '../quetsion_page.dart';
+import '../../history_page.dart';
 
 class VipOneTasks extends StatefulWidget {
   var vip;
@@ -34,7 +23,6 @@ class _VipOneTasksState extends State<VipOneTasks> {
 
 // image pciker code
   XFile? _image;
-
   Future getImage() async {
     var image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image != null) {
@@ -47,36 +35,34 @@ class _VipOneTasksState extends State<VipOneTasks> {
 
   List<String>? SavedTasks;
   String? _dateTime;
-  Future getSavedTaskId()async{
+  Future getSavedTaskId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     SavedTasks = (await prefs.getKeys()).toList() as List<String>?;
     print("SavedTasks: ${SavedTasks}");
   }
 
-  setDateTime()async{
+  setDateTime() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _dateTime = (await prefs.setString('dateTime', DateTime.now().toString())) as String?;
+    _dateTime = (await prefs.setString('dateTime', DateTime.now().toString()))
+        as String?;
     print("_dateTime: ${_dateTime}");
   }
 
-  clearPref()async{
+  clearPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String savedDate = await prefs.getString('dateTime').toString();
     print("savedDate: ${savedDate}");
-    if(savedDate !=  DateTime.now().toString()){
+    if (DateTime.parse(savedDate).isBefore(DateTime.now())) {
       await prefs.clear();
     }
-    else{
-      setDateTime();
-    }
-    // prefs.clear();
+    await prefs.clear();
   }
 
   @override
-  initState(){
+  initState() {
     super.initState();
+    // setDateTime();
     getSavedTaskId();
-    clearPref();
   }
 
   @override
@@ -101,12 +87,39 @@ class _VipOneTasksState extends State<VipOneTasks> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        title: Text(
+          'Daily Tasks!',
+          style: TextStyle(
+            fontFamily: 'SF Rounded',
+            fontSize: 24,
+            color: Colors.white,
+          ),
+        ),
+        actions: [
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HistoryScreen()));
+              },
+              style: ElevatedButton.styleFrom(
+                elevation: 5.0,
+                textStyle: const TextStyle(
+                  fontFamily: 'SF Rounded',
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
+              child: Text(
+                'history',
+              ))
+        ],
       ),
       backgroundColor: const Color(0xff202227),
       body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance.collection("task ").snapshots(),
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-             if (snapshot.connectionState == ConnectionState.waiting) {
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             } else {
               var taskLength = snapshot.data!.docs.length;
@@ -129,78 +142,108 @@ class _VipOneTasksState extends State<VipOneTasks> {
                     itemBuilder: (ctx, index) {
                       var item = snapshot.data!.docs[index];
 
-                      return SavedTasks!.contains("doneTask${index}") ? Container() :
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: ListTile(
-                          onTap: () async {
-                            if (await canLaunch(item.get("link"))) {
-                              await launch(item.get("link"));
-                            } else {
-                              throw 'Could not launch ${item.get("link")}';
-                            }
-                          },
-                          trailing: GestureDetector(
-                            onTap: () async{
-                              SharedPreferences pref = await SharedPreferences.getInstance();
-                              await getImage();
-
-
-                              if(_image != null){
-                                var _currentBalance = await users.doc(Appuser!.uid).get().then((value) {
-                                  var balance = value.get('balance');
-                                  var newBalance;
-
-                                  // new balance
-                                  if(widget.vip == 0){
-                                    newBalance = balance + 0.2;
-                                  }else if(widget.vip == 1){
-                                    newBalance = balance + 1.1;
-                                  }else if(widget.vip == 2){
-                                    newBalance = balance + 2;
-                                  }else if(widget.vip == 3){
-                                    newBalance = balance + 2.8;
-                                  } else if(widget.vip == 4){
-                                    newBalance = balance + 3.5;
+                      return SavedTasks!.contains("doneTask${index}")
+                          ? Container()
+                          : Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: ListTile(
+                                onTap: () async {
+                                  if (await canLaunch(item.get("link"))) {
+                                    await launch(item.get("link"));
+                                  } else {
+                                    throw 'Could not launch ${item.get("link")}';
                                   }
-                                  print("balance $newBalance");
-                                  // update balance
-                                  users.doc(Appuser!.uid).update({
-                                    'balance': newBalance,
-                                  });
-                                });
-                                  /// saved the task which user completed
-                                String taskID =  snapshot.data!.docs[index].id;
-                                await pref.setString("doneTask${index}", taskID);
-                                await getSavedTaskId();
-                                setState(() {});
-                              }
-                            },
-                            child: Column(
-                              children: [
-                                Icon(
-                                  Icons.upload,
-                                  color: Colors.green,
+                                },
+                                trailing: GestureDetector(
+                                  onTap: () async {
+                                    SharedPreferences pref =
+                                        await SharedPreferences.getInstance();
+                                    await getImage();
+
+                                    if (_image != null) {
+                                      var _currentBalance = await users
+                                          .doc(Appuser!.uid)
+                                          .get()
+                                          .then((value) {
+                                        var balance = value.get('balance');
+                                        var newBalance;
+
+                                        // new balance
+                                        if (widget.vip == 0) {
+                                          newBalance = balance + 0.2;
+                                        } else if (widget.vip == 1) {
+                                          newBalance = balance + 1.1;
+                                        } else if (widget.vip == 2) {
+                                          newBalance = balance + 2;
+                                        } else if (widget.vip == 3) {
+                                          newBalance = balance + 2.8;
+                                        } else if (widget.vip == 4) {
+                                          newBalance = balance + 3.5;
+                                        }
+                                        print("balance $newBalance");
+                                        // update balance
+                                        users.doc(Appuser!.uid).update({
+                                          'balance': newBalance,
+                                        });
+                                        // saved data in history
+                                        FirebaseFirestore.instance
+                                            .collection('history')
+                                            .add({
+                                          'date': DateTime.now(),
+                                          'user_id': Appuser.uid,
+                                          'amount': widget.vip == 0
+                                              ? 0.2
+                                              : widget.vip == 1
+                                                  ? 1.1
+                                                  : widget.vip == 2
+                                                      ? 2
+                                                      : widget.vip == 3
+                                                          ? 2.8
+                                                          : widget.vip == 4
+                                                              ? 3.5
+                                                              : 0,
+                                          'title': item.get('title'),
+                                        });
+                                      });
+
+                                      /// saved the task which user completed
+                                      String taskID =
+                                          snapshot.data!.docs[index].id;
+                                      await pref.setString(
+                                          "doneTask${index}", taskID);
+                                      await getSavedTaskId();
+                                      setState(() {});
+                                    }
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Icon(
+                                        Icons.upload,
+                                        color: Colors.green,
+                                      ),
+                                      Text(
+                                        "Upload",
+                                        style: TextStyle(color: Colors.green),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                Text(
-                                  "Upload",
-                                  style: TextStyle(color: Colors.green),
+                                leading: Image.network(
+                                  item.get('logo'),
+                                  height: 40,
+                                  width: 40,
                                 ),
-                              ],
-                            ),
-                          ),
-                          leading: Image.network(
-                            item.get('logo'),
-                            height: 40,
-                            width: 40,
-                          ),
-                          title: Text(
-                            item.get('title'),
-                            style: TextStyle(color: Colors.white, fontSize: 14),
-                          ),
-                          subtitle: Text(item.get('description'), style: TextStyle(color: Colors.white, fontSize: 12)),
-                        ),
-                      );
+                                title: Text(
+                                  item.get('title'),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 14),
+                                ),
+                                subtitle: Text(item.get('description'),
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 12)),
+                              ),
+                            );
                     }),
               );
             }

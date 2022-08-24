@@ -417,8 +417,10 @@ class _DepositePageState extends State<DepositePage> {
                                 await FirebaseFirestore.instance
                                     .collection('users')
                                     .doc(Appuser!.uid)
-                                    .update(
-                                        {'depositwallet': wallet.text.trim()});
+                                    .update({
+                                  'depositwallet': wallet.text.trim(),
+                                  'depositreq': 'wating'
+                                });
                               }
                             });
 
