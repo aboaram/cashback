@@ -299,7 +299,8 @@ class _SendInviteState extends State<SendInvite> {
                           child: GestureDetector(
                             onTap: () {
                               Clipboard.setData(ClipboardData(
-                                      text: data['invitecode'].toString()))
+                                      text:
+                                          ' your invite code is : ${data['invitecode'].toString()} \ vp activate is  ${data['id']}'))
                                   .then((_) {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
@@ -316,7 +317,7 @@ class _SendInviteState extends State<SendInvite> {
                                   labelText: data['invitecode'].toString(),
                                   filled: true,
                                   fillColor: Color.fromARGB(229, 230, 232, 255),
-                                  hintText: 'Enter your wallet ....',
+                                  hintText: '',
                                   border: OutlineInputBorder()),
                             ),
                           ),
@@ -324,155 +325,6 @@ class _SendInviteState extends State<SendInvite> {
                       ),
                       SizedBox(
                         height: 20,
-                      ),
-                      Visibility(
-                        child: Center(
-                          child: Container(
-                            margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                            width: 413,
-                            height: 200,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 1.15,
-                                color:
-                                    const Color(0xff707070).withOpacity(0.28),
-                              ),
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: Column(children: [
-                              Icon(
-                                Icons.card_giftcard_outlined,
-                                color: Colors.white.withOpacity(0.25),
-                                size: 50,
-                              ),
-                              Text(
-                                'You have invaite code from friend\n insert it and take your gift!!',
-                                style: TextStyle(
-                                  fontFamily: 'SF Rounded',
-                                  fontSize: 16,
-                                  color: Colors.white.withOpacity(0.25),
-                                ),
-                              ),
-                              Visibility(
-                                visible: firstpress,
-                                child: Center(
-                                  child: TextField(
-                                      enabled: true,
-                                      controller: refcode,
-                                      keyboardType: TextInputType.text,
-                                      decoration: InputDecoration(
-                                        labelText: 'Refcode',
-                                        suffixIcon: IconButton(
-                                            icon: Icon(Icons.send),
-                                            onPressed: () {
-                                              setState(() {
-                                                firstpress = !firstpress;
-                                                nexr = !nexr;
-                                              });
-                                              FirebaseAuth.instance
-                                                  .authStateChanges()
-                                                  .listen((User? user) async {
-                                                if (user != null) {
-                                                  final Appuser = FirebaseAuth
-                                                      .instance.currentUser;
-                                                  await FirebaseFirestore
-                                                      .instance
-                                                      .collection('users')
-                                                      .doc(Appuser!.uid)
-                                                      .update({
-                                                    'refcode':
-                                                        refcode.text.trim()
-                                                  });
-                                                }
-                                              });
-
-                                              FirebaseAuth.instance
-                                                  .authStateChanges()
-                                                  .listen((User? user) async {
-                                                if (user != null) {
-                                                  final Appuser = FirebaseAuth
-                                                      .instance.currentUser;
-                                                  await FirebaseFirestore
-                                                      .instance
-                                                      .collection('refcode')
-                                                      .doc(Appuser!.uid)
-                                                      .set({
-                                                    'refcode':
-                                                        refcode.text.trim(),
-                                                    'id': data['id']
-                                                  });
-                                                }
-                                                FirebaseAuth.instance
-                                                    .authStateChanges()
-                                                    .listen((User? user) async {
-                                                  if (user != null) {
-                                                    final Appuser = FirebaseAuth
-                                                        .instance.currentUser;
-                                                    await FirebaseFirestore
-                                                        .instance
-                                                        .collection('users')
-                                                        .doc(Appuser!.uid)
-                                                        .update({
-                                                      'rewardbalance':
-                                                          (balance + 5.0)
-                                                              .toString()
-                                                    });
-                                                  }
-                                                });
-                                              });
-                                            }),
-                                        filled: true,
-                                        fillColor:
-                                            Color.fromARGB(229, 230, 232, 255),
-                                        hintText:
-                                            'Enter your invaite code ....',
-                                        border: OutlineInputBorder(),
-                                      )),
-                                ),
-                              ),
-                              Visibility(
-                                  visible: nexr,
-                                  child: Column(
-                                    children: [
-                                      Center(
-                                        child: Container(
-                                          margin:
-                                              EdgeInsets.fromLTRB(20, 0, 20, 0),
-                                          width: 413,
-                                          height: 200,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              width: 1.15,
-                                              color: const Color(0xff707070)
-                                                  .withOpacity(0.28),
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                          ),
-                                          child: Column(children: [
-                                            Icon(
-                                              Icons.wallet_giftcard,
-                                              color: Colors.white
-                                                  .withOpacity(0.25),
-                                              size: 50,
-                                            ),
-                                            Text(
-                                              'You get 5 usdt as gift ',
-                                              style: TextStyle(
-                                                fontFamily: 'SF Rounded',
-                                                fontSize: 16,
-                                                color: Colors.white
-                                                    .withOpacity(0.25),
-                                              ),
-                                            )
-                                          ]),
-                                        ),
-                                      )
-                                    ],
-                                  ))
-                            ]),
-                          ),
-                        ),
                       ),
                     ]),
               ),
