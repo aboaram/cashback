@@ -40,12 +40,12 @@ class _HomePageSubState extends State<HomePageSub> {
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasData) {
             Map<String, dynamic> data =
-            snapshot.data!.data() as Map<String, dynamic>;
+                snapshot.data!.data() as Map<String, dynamic>;
             // double
             double balance = double.parse(data['balance'].toString());
             double teambalance = double.parse(data['teambalance'].toString());
             double rewardbalance =
-            double.parse(data['rewardbalance'].toString());
+                double.parse(data['rewardbalance'].toString());
             double allbalance = balance + teambalance + rewardbalance;
             double vip = double.parse(data['vip'].toString());
 
@@ -97,8 +97,8 @@ class _HomePageSubState extends State<HomePageSub> {
                                         // userData!.name.toString(),
                                         style: TextStyle(
                                             fontSize: 54,
-                                            color:
-                                            Color(0xffffffff).withOpacity(0.70),
+                                            color: Color(0xffffffff)
+                                                .withOpacity(0.70),
                                             fontWeight: FontWeight.w200),
                                         textAlign: TextAlign.left,
                                       ),
@@ -109,7 +109,8 @@ class _HomePageSubState extends State<HomePageSub> {
                                         'USDT',
                                         style: TextStyle(
                                             fontSize: 26,
-                                            color: Colors.white.withOpacity(0.7),
+                                            color:
+                                                Colors.white.withOpacity(0.7),
                                             fontFamily: 'SF Rounded',
                                             fontWeight: FontWeight.w200),
                                       ),
@@ -191,7 +192,8 @@ class _HomePageSubState extends State<HomePageSub> {
                                           style: TextStyle(
                                             fontFamily: 'SF Rounded',
                                             fontSize: 16,
-                                            color: Colors.white.withOpacity(0.25),
+                                            color:
+                                                Colors.white.withOpacity(0.25),
                                           ),
                                         ),
                                       ),
@@ -212,7 +214,10 @@ class _HomePageSubState extends State<HomePageSub> {
                                 gradient: const LinearGradient(
                                   begin: Alignment(0.01, 0.13),
                                   end: Alignment(0.97, 0.84),
-                                  colors: [Color(0xff79fd7b), Color(0xff3dcd98)],
+                                  colors: [
+                                    Color(0xff79fd7b),
+                                    Color(0xff3dcd98)
+                                  ],
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -242,7 +247,8 @@ class _HomePageSubState extends State<HomePageSub> {
                           border: Border(
                             top: BorderSide(
                                 width: 1.15,
-                                color: const Color(0xff707070).withOpacity(0.28)),
+                                color:
+                                    const Color(0xff707070).withOpacity(0.28)),
                           ),
                         ),
                         child: Row(
@@ -256,7 +262,7 @@ class _HomePageSubState extends State<HomePageSub> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                          const DepositePage()));
+                                              const DepositePage()));
                                 }),
                                 child: Container(
                                   width: 90,
@@ -274,7 +280,8 @@ class _HomePageSubState extends State<HomePageSub> {
                                       BoxShadow(
                                         offset: Offset(0, 0),
                                         blurRadius: 18,
-                                        color: Color(0xff7afc79).withOpacity(0.26),
+                                        color:
+                                            Color(0xff7afc79).withOpacity(0.26),
                                       )
                                     ],
                                     borderRadius: BorderRadius.circular(10),
@@ -300,7 +307,7 @@ class _HomePageSubState extends State<HomePageSub> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                          const WithdrawlRoot()));
+                                              const WithdrawlRoot()));
                                 }),
                                 child: Container(
                                   width: 120,
@@ -318,7 +325,8 @@ class _HomePageSubState extends State<HomePageSub> {
                                       BoxShadow(
                                         offset: Offset(0, 0),
                                         blurRadius: 18,
-                                        color: Color(0xff7afc79).withOpacity(0.26),
+                                        color:
+                                            Color(0xff7afc79).withOpacity(0.26),
                                       )
                                     ],
                                     borderRadius: BorderRadius.circular(10),
@@ -344,7 +352,8 @@ class _HomePageSubState extends State<HomePageSub> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => WalletHistory()));
+                                          builder: (context) =>
+                                              WalletHistory()));
                                 },
                                 child: Container(
                                   width: 90,
@@ -362,7 +371,8 @@ class _HomePageSubState extends State<HomePageSub> {
                                       BoxShadow(
                                         offset: Offset(0, 0),
                                         blurRadius: 18,
-                                        color: Color(0xff7afc79).withOpacity(0.26),
+                                        color:
+                                            Color(0xff7afc79).withOpacity(0.26),
                                       )
                                     ],
                                     borderRadius: BorderRadius.circular(10),
@@ -382,22 +392,49 @@ class _HomePageSubState extends State<HomePageSub> {
                               )
                             ]),
                       ),
-
-                      SizedBox(height: 35),
-
-                      Text(
-                        data['notficone'],
-                        style: TextStyle(
-                          fontFamily: 'SF Rounded',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                          color: Colors.white.withOpacity(0.92),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        height: 5,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            top: BorderSide(
+                                width: 1.15,
+                                color:
+                                    const Color(0xff707070).withOpacity(0.28)),
+                          ),
                         ),
                       ),
 
+                      SizedBox(height: 35),
 
+                      Center(
+                        child: Text(
+                          data['notficone'],
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'SF Rounded',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                            color: Colors.white.withOpacity(0.92),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                       Container(
+                        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        height: 5,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            top: BorderSide(
+                                width: 1.15,
+                                color:
+                                    const Color(0xff707070).withOpacity(0.28)),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
+                 
                   DraggableFab(
                     child: FloatingActionButton(
                       onPressed: () async {
@@ -424,10 +461,8 @@ class _HomePageSubState extends State<HomePageSub> {
                   offset: Offset(0, 18),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => VipList()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => VipList()));
                     },
                     onLongPress: () {
                       FirebaseAuth.instance.signOut();
@@ -460,7 +495,7 @@ class _HomePageSubState extends State<HomePageSub> {
               ),
 
               floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
+                  FloatingActionButtonLocation.centerDocked,
               //
               bottomNavigationBar: Padding(
                 padding: const EdgeInsets.only(bottom: 18.0),
@@ -513,7 +548,7 @@ class _HomePageSubState extends State<HomePageSub> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                      const QuetsionPage()));
+                                          const QuetsionPage()));
                             }),
                         IconButton(
                             icon: Icon(
@@ -526,7 +561,7 @@ class _HomePageSubState extends State<HomePageSub> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                      const SendInvite()));
+                                          const SendInvite()));
                             }),
                       ],
                     ),

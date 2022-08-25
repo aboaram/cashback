@@ -18,19 +18,19 @@ class _WalletHistoryState extends State<WalletHistory> {
     final Appuser = FirebaseAuth.instance.currentUser;
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     CollectionReference history =
-    FirebaseFirestore.instance.collection('wallet_history');
+        FirebaseFirestore.instance.collection('wallet_history');
     return FutureBuilder<DocumentSnapshot>(
         future: users.doc(Appuser!.uid).get(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasData) {
             Map<String, dynamic> data =
-            snapshot.data!.data() as Map<String, dynamic>;
+                snapshot.data!.data() as Map<String, dynamic>;
             // double
             double balance = double.parse(data['balance'].toString());
             double teambalance = double.parse(data['teambalance'].toString());
             double rewardbalance =
-            double.parse(data['rewardbalance'].toString());
+                double.parse(data['rewardbalance'].toString());
             double allbalance = balance + teambalance + rewardbalance;
             double vip = double.parse(data['vip'].toString());
 
@@ -49,9 +49,9 @@ class _WalletHistoryState extends State<WalletHistory> {
               ),
               backgroundColor: const Color(0xff202227),
               body:
-              // user box
+                  // user box
 
-              Column(children: [
+                  Column(children: [
                 SizedBox(
                   width: 5,
                 ),
@@ -150,35 +150,41 @@ class _WalletHistoryState extends State<WalletHistory> {
                 ),
 
                 SizedBox(
-                  width: 25,
+                  height: 25,
                 ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  height: 5,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                          width: 1.15,
+                          color: const Color(0xff707070).withOpacity(0.28)),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
                 Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
                         'balance',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.white),
+                            fontSize: 18,
+                            color: Colors.white.withOpacity(0.25)),
                       ),
                       Text(
-                        'Team balance',
+                        'Team B',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.white),
-                      ),
-                      Text(
-                        'Reward balance',
-                        style: TextStyle(
-                            fontFamily: 'SF Rounded',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.white),
+                            fontSize: 18,
+                            color: Colors.white.withOpacity(0.25)),
                       ),
                     ],
                   ),
@@ -193,27 +199,21 @@ class _WalletHistoryState extends State<WalletHistory> {
                     children: [
                       Text(
                         '${balance}',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Colors.white),
+                            fontSize: 16,
+                            color: Colors.white.withOpacity(0.25)),
                       ),
                       Text(
                         data['teambalance'].toString(),
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Colors.white),
-                      ),
-                      Text(
-                        data['rewardbalance'].toString(),
-                        style: TextStyle(
-                            fontFamily: 'SF Rounded',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Colors.white),
+                            fontSize: 16,
+                            color: Colors.white.withOpacity(0.25)),
                       ),
                     ],
                   ),
@@ -221,33 +221,28 @@ class _WalletHistoryState extends State<WalletHistory> {
                 SizedBox(
                   height: 20,
                 ),
+
                 Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
+                        'reward B',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'SF Rounded',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.white.withOpacity(0.25)),
+                      ),
+                      Text(
                         'weekly',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.white),
-                      ),
-                      Text(
-                        'monthly',
-                        style: TextStyle(
-                            fontFamily: 'SF Rounded',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.white),
-                      ),
-                      Text(
-                        'last Mo',
-                        style: TextStyle(
-                            fontFamily: 'SF Rounded',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.white),
+                            fontSize: 18,
+                            color: Colors.white.withOpacity(0.25)),
                       ),
                     ],
                   ),
@@ -261,28 +256,80 @@ class _WalletHistoryState extends State<WalletHistory> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        data['weeklyBalance'].toString(),
+                        data['rewardbalance'].toString(),
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Colors.white),
+                            fontSize: 16,
+                            color: Colors.white.withOpacity(0.25)),
                       ),
                       Text(
-                        data['mounthlyBalance'].toString(),
+                        data['weeklyBalance'].toString(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'SF Rounded',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.white.withOpacity(0.25)),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        'monthly',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                            color: Colors.white),
+                            color: Colors.white.withOpacity(0.25)),
+                      ),
+                      Text(
+                        'Last mon',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'SF Rounded',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.white.withOpacity(0.25)),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        data['mounthlyBalance'].toString(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'SF Rounded',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.white.withOpacity(0.25)),
                       ),
                       Text(
                         data['lastmonthhbalance'].toString(),
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Colors.white),
+                            fontSize: 16,
+                            color: Colors.white.withOpacity(0.25)),
                       ),
                     ],
                   ),
@@ -296,28 +343,23 @@ class _WalletHistoryState extends State<WalletHistory> {
                     children: [
                       Text(
                         'Team',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.white),
+                            fontSize: 18,
+                            color: Colors.white.withOpacity(0.25)),
                       ),
                       Text(
                         'vip team',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontFamily: 'SF Rounded',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.white),
-                      ),
-                      Text(
-                        'vip0',
-                        style: TextStyle(
-                            fontFamily: 'SF Rounded',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.white),
-                      ),
+                          fontFamily: 'SF Rounded',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.white.withOpacity(0.25),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -330,33 +372,39 @@ class _WalletHistoryState extends State<WalletHistory> {
                     children: [
                       Text(
                         data['team'].toString(),
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Colors.white),
+                            fontSize: 16,
+                            color: Colors.white.withOpacity(0.25)),
                       ),
                       Text(
                         data['vipteam'].toString(),
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: 'SF Rounded',
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                            color: Colors.white),
-                      ),
-                      Text(
-                        data['normalteam'].toString(),
-                        style: TextStyle(
-                            fontFamily: 'SF Rounded',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Colors.white),
+                            color: Colors.white.withOpacity(0.25)),
                       ),
                     ],
                   ),
                 ),
+
                 SizedBox(
                   height: 20,
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  height: 5,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                          width: 1.15,
+                          color: const Color(0xff707070).withOpacity(0.28)),
+                    ),
+                  ),
                 ),
               ]),
             );

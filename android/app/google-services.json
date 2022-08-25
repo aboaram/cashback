@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "227797483252-rlgm9a4ipkrp0iehrn44ue13238so0g2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cashback",
+            "certificate_hash": "e7f0e023be1932f595e2579b2297eb1b5aea94d1"
+          }
+        },
+        {
           "client_id": "227797483252-tq9ko7a9u8g11gd7j06d13cbnkqtlc7k.apps.googleusercontent.com",
           "client_type": 3
         }
