@@ -300,7 +300,7 @@ class _SendInviteState extends State<SendInvite> {
                             onTap: () {
                               Clipboard.setData(ClipboardData(
                                       text:
-                                          ' your invite code is : ${data['invitecode'].toString()} \ vp activate is  ${data['id']}'))
+                                          ' your invite code is : ${data['invitecode'].toString()} \    vp activate is  ${data['sid']}'))
                                   .then((_) {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
